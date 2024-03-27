@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Write Review</title>
+        <link rel="stylesheet" href="Tags.css" type="text/css">
+    </head>
+ 
+    <body>
+        <h1>Write a Review</h1>
+        <div class="review">
+            <!--Review for preexistsing restaurant in database-->
+            <input type="text" class="name" id="name" placeholder="Restaurant Name">
+            <br><br>
+            <input type="text" class="experience" id="experience" placeholder="How was your experience">
+            <br><br>
+            <div class="selectedDivWrite" id="selectedDiv">
+                Input some tags
+            </div>
+            <br>
+
+            <div class="TagButtons">
+                <button class="flavorButton" id="flavorButton">Flavors</button>
+                <button type="checkbox" class="cuisineButton" id="cuisineButton">Cuisine</button>
+                <button type="checkbox" class="restrictButton" id="restrictButton">Dietary Restrictions</button>
+             </div>
+
+            <div class="options"> 
+                <div class="flavorsDiv" id ="flavorsDiv" style="display: none">
+                    <input type="checkbox" id="Spicy" name = "boxes" value="Spicy">
+                    <label class="flavorLabel" for ="Spicy"> Spicy </label>  
+                    <input type="checkbox" id="Sweet" name = "boxes" value="Sweet">
+                    <label class="flavorLabel" for ="Sweet"> Sweet </label>
+                    <input type="checkbox" id="Sour" name = "boxes" value="Sour">
+                    <label class="flavorLabel" for ="Sour"> Sour </label><br>
+                </div>
+        
+                <div id ="cuisineDiv" style="display: none">
+                    <input type="checkbox" id="Korean" name = "boxes" value="Korean">
+                    <label class="cuisineLabel" for ="Korean"> Korean </label>  
+                    <input type="checkbox" id="Indian" name = "boxes" value="Indian">
+                    <label class="cuisineLabel" for ="Indian"> Indian </label>
+                    <input type="checkbox" id="Country" name = "boxes" value="Country">
+                    <label class="cuisineLabel" for ="Country"> Country </label><br>
+                </div>
+    
+                <div id ="restrictDiv" style="display: none">
+                    <input type="checkbox" id="Gluten Free" name = "boxes" value="Gluten Free">
+                    <label class="restrictLabel" for ="Gluten Free"> Gluten Free </label>  
+                    <input type="checkbox" id="Vegan" name = "boxes" value="Vegan">
+                    <label class="restrictLabel" for ="Vegan"> Vegan </label>
+                    <input type="checkbox" id="Vegetarian" name = "boxes" value="Vegetarian">
+                    <label class="restrictLabel" for ="Vegetarian"> Vegetarian </label><br>
+                </div>
+                
+            </div>
+
+            <button id="tagSubmit">Submit</button>
+            <!--Review for new restaurant-->
+        </div>
+
+        <script type="module">
+            import {initializeApp} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+            import {getAnalytics} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+            import {getFirestore} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+            const firebaseConfig = {
+            apiKey: "AIzaSyDY7XjksxyklzjofNZ-J3CBYj_ovmA0Oho",
+            authDomain: "bitequest-68fcf.firebaseapp.com",
+            databaseURL: "https://bitequest-68fcf-default-rtdb.firebaseio.com",
+            projectId: "bitequest-68fcf",
+            storageBucket: "bitequest-68fcf.appspot.com",
+            messagingSenderId: "198288473851",
+            appId: "1:198288473851:web:ca305f85aa1e475d5afa5e",
+            measurementId: "G-NGK8MVZX91"
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app); 
+            import {getDatabase, onValue, ref, child, get, set, update, remove} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+            const db = getDatabase();
+            const dbRef = ref(db);
+
+            document.getElementById("flavorButton").addEventListener("click",  function() {
+                myDisplay(flavorsDiv);
+            }, );
+            document.getElementById("cuisineButton").addEventListener("click",  function() {
+                myDisplay(cuisineDiv);
+            }, );
+            document.getElementById("restrictButton").addEventListener("click",  function() {
+                myDisplay(restrictDiv);
+            }, );
+            document.getElementById("tagSubmit").addEventListener("click",  function() {
+                writeReview();
+            }, );
+            var checkboxes = document.querySelectorAll("input[type=checkbox][name=boxes]");
+            let enabledSettings = []
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    enabledSettings = 
+                    Array.from(checkboxes) // Convert checkboxes to an array to use filter and map.
+                    .filter(i => i.checked) // Use Array.filter to remove unchecked checkboxes.
+                    .map(i => i.value) // Use Array.map to extract only the checkbox values from the array of objects.
+                    let tags = "";
+                    enabledSettings.forEach(function (item) {
+                        tags += item +",";
+                    });
+                    console.log(enabledSettings)
+                    displaySelected(enabledSettings);
+                })
+            });
+            function displaySelected(enabledSettings) {
+                document.getElementById("selectedDiv").innerHTML = "";
+                enabledSettings.forEach((tag) => {
+                    var newlabel = document.createElement("label");
+                    newlabel.className = "selected";
+                    newlabel.innerHTML = tag;
+                    document.getElementById("selectedDiv").appendChild(newlabel);
+                });
+            }
+            function myDisplay(x) {
+                if (x.style.display == "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+            var index = 1;
+            function writeReview() {
+                console.log(document.getElementById("name").value);
+                console.log(document.getElementById("experience").value);
+                var path = ref(db, `Restaurants/${document.getElementById("name").value.toUpperCase()}`);
+                    onValue(path, (snapshot)=> {
+                    if (snapshot.exists()) {
+                        //const db = getDatabase();
+                        set(ref(db, 'users/' + userId), {
+                            username: name,
+                            email: email,
+                            profile_picture : imageUrl
+                        });
+                    }
+                    });
+            }
+        </script>
+    </body>
+
+</html>

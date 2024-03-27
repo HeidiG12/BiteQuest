@@ -1,0 +1,160 @@
+h1 {
+    text-align:center;
+    color: gray;
+}
+#div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 10px solid lightgray;
+  
+}
+.TagButtons {
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+button {
+display:inline-block;
+width:10em;
+height: 3em;
+background:#f2f2f2;
+border:0px;
+border-radius:10px;
+text-align:center;
+font-size: 1em;
+margin: 10px;
+}
+button:hover {
+background: lavender;
+cursor:pointer;
+}
+.flavorButton:checked {
+background: powderblue;
+cursor:pointer;
+}
+.flavorButton:hover {
+background: powderblue;
+cursor:pointer;
+}
+.cuisineButton:hover {
+background: lightsalmon;
+cursor:pointer;
+}
+.restrictButton:hover {
+background: lightcoral;
+cursor:pointer;
+}
+input[type="checkbox"] {
+display: none;
+}
+input[type="text"] {
+width: 30em;
+}
+input[type="button"] {
+display:inline-block;
+width:10em;
+height: 3em;
+border:0px;
+border-radius:10px;
+text-align:center;
+font-size: 1em;
+margin: 10px;
+}
+input[type="button"]:hover {
+background-color: peachpuff;
+}
+input[type="checkbox"]:checked + .flavorLabel {
+background-color: powderblue;
+}
+input[type="checkbox"]:checked + .cuisineLabel {
+background-color: lightsalmon;
+}
+input[type="checkbox"]:checked + .restrictLabel {
+background-color: lightcoral;
+}
+input:hover + .flavorLabel {
+background: powderblue;
+cursor:pointer;
+}
+input:hover + .cuisineLabel {
+background: lightsalmon;
+cursor:pointer;
+}
+input:hover + .restrictLabel {
+background: lightcoral;
+cursor:pointer;
+}
+label {
+display:inline-block;
+width:auto;
+height: 2em;
+border:0px solid #000;
+background:#f2f2f2;
+border-radius:10px;
+text-align:center;
+padding-top: 1em;
+font-size:1.2rem;
+margin-top: 1em;
+padding-left: 1em;
+padding-right: 1em;
+margin: 5px;
+}
+.submit {
+width: auto;
+height: 2em;
+border:0px solid #000;
+background:#f2f2f2;
+border-radius:10px;
+text-align:center;
+font-size:1.2rem;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.selected {
+display:inline-block;
+border-radius:10px;
+padding-left: 1em;
+padding-right: 1em;
+padding-top: 1em;
+font-size:1rem;
+}
+.selectedDiv {
+border: 1px solid lightgrey;
+padding-left: 1em;
+padding-bottom: 0.5em;
+padding-top: 0.5em;
+padding-right: 1em;
+height: 100%;
+width: 50%;
+text-align: center;
+align-items: center;
+margin-left: 25%;
+margin-right: 25%;
+}
+.selectedDivWrite {
+border: 1px solid lightgrey;
+padding-left: 1em;
+padding-bottom: 0.5em;
+padding-top: 0.5em;
+padding-right: 1em;
+height: 100%;
+width: 50%;
+text-align: center;
+align-items: center;
+margin-left: 25%;
+margin-right: 25%;
+}
+.review {
+align-items: center;
+text-align:center;
+}
+.mainDiv {
+border: 0px;
+text-align: center;
+align-items: center;
+margin-left: 25%;
+margin-right: 25%;
+}
