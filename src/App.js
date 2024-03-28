@@ -1,30 +1,34 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
-import LoginButton from "./components/login";
-import LogoutButton from "./components/logout";
-import {useEffect} from 'react';
+import LoginButton from "./fireBaseConfig/userLoginLogout";
+import { useEffect } from 'react';
 import { gapi } from 'gapi-script';
+import { AuthProvider } from './components/AuthContext'; // Adjust this import based on the actual file location
+import UserInputReview from "./components/userInputReview";
 
-const clientId = "577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com"
-//Client Secret: 577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com  
+const clientId = "your_client_id.apps.googleusercontent.com";
 
 function App() {
-  useEffect(()=>{
-    function start()  {
+  useEffect(() => {
+    function start() {
       gapi.client.init({
         clientId: clientId,
-        scope:""
-      })
+        scope: ""
+      });
     };
     gapi.load('client:auth2', start);
   });
-  
+
   return (
+    <AuthProvider>
     <div className="App">
+      {/* Your components that consume the auth context */}
       <LoginButton/>
-      <LogoutButton/>
+      <UserInputReview/>
     </div>
-  );
+  </AuthProvider>
+);
 }
+
 
 export default App;
