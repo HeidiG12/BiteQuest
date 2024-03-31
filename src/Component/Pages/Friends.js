@@ -1,5 +1,5 @@
 import React from "react";
-import "./Friends.css";
+import "../StyleSheets/Friends.css";
 
 
 const Friends = () => {
