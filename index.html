@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend Request System</title>
+</head>
+<body>
+    <div id="loginSection">
+        <input type="text" id="loginUsername" placeholder="Username">
+        <input type="password" id="loginPassword" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+    
+    <div id="friendRequestSection" style="display:none;">
+        <input type="text" id="toUser" placeholder="To User">
+        <button onclick="sendRequest()">Send Friend Request</button>
+        <h2>Friend Requests</h2>
+        <ul id="friendRequestsList"></ul>
+        <h2>Friends</h2>
+        <ul id="friendsList"></ul> <!-- Make sure this element exists -->
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
