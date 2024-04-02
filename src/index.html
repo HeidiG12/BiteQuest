@@ -3,66 +3,58 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Database Retrieval</title>
+        <title>Tag Search</title>
+        <link rel="stylesheet" href="Tags.css" type="text/css">
+        <link href="destination.html" type="text/css">
     </head>
-        
+ 
     <body>
-        <label> Restaurant Name </label>
-        <input type="text" id="name">
-        <br><br> 
+        <h1>Search by Tags</h1>
+    
+        <div id="selectedDiv" class="selectedDiv"></div>
+        <br>
 
-        <label> Find </label>
-        <input type="text" id="find">
-        <br><br> 
+        <div class="TagButtons">
+            <button class="flavorButton" id="flavorButton">Flavors</button>
+            <button type="checkbox" class="cuisineButton" id="cuisineButton">Cuisine</button>
+            <button type="checkbox" class="restrictButton" id="restrictButton">Dietary Restrictions</button>
+         </div>
 
-        <button id="GetBtn">Retrieve</button>
+        <div class="review"> 
+            <div class="flavorsDiv" id ="flavorsDiv" style="display: none">
+                <input type="checkbox" id="Spicy" name = "boxes" value="Spicy">
+                <label class="flavorLabel" for ="Spicy"> Spicy </label>  
+                <input type="checkbox" id="Sweet" name = "boxes" value="Sweet">
+                <label class="flavorLabel" for ="Sweet"> Sweet </label>
+                <input type="checkbox" id="Sour" name = "boxes" value="Sour">
+                <label class="flavorLabel" for ="Sour"> Sour </label><br>
+            </div>
+    
+            <div id ="cuisineDiv" style="display: none">
+                <input type="checkbox" id="Korean" name = "boxes" value="Korean">
+                <label class="cuisineLabel" for ="Korean"> Korean </label>  
+                <input type="checkbox" id="Indian" name = "boxes" value="Indian">
+                <label class="cuisineLabel" for ="Indian"> Indian </label>
+                <input type="checkbox" id="Country" name = "boxes" value="Country">
+                <label class="cuisineLabel" for ="Country"> Country </label><br>
+            </div>
 
-        <script type="module">
-            // Import the functions you need from the SDKs you need
-            import {initializeApp} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-            import {getAnalytics} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-            // TODO: Add SDKs for Firebase products that you want to use
-            // https://firebase.google.com/docs/web/setup#available-libraries
+            <div id ="restrictDiv" style="display: none">
+                <input type="checkbox" id="Gluten Free" name = "boxes" value="Gluten Free">
+                <label class="restrictLabel" for ="Gluten Free"> Gluten Free </label>  
+                <input type="checkbox" id="Vegan" name = "boxes" value="Vegan">
+                <label class="restrictLabel" for ="Vegan"> Vegan </label>
+                <input type="checkbox" id="Vegetarian" name = "boxes" value="Vegetarian">
+                <label class="restrictLabel" for ="Vegetarian"> Vegetarian </label><br>
+            </div>
+            
+            <button class="try" id="tagSubmit">Submit</button>
+        </div>
 
-            // Your web app's Firebase configuration
-            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-            const firebaseConfig = {
-            apiKey: "AIzaSyDY7XjksxyklzjofNZ-J3CBYj_ovmA0Oho",
-            authDomain: "bitequest-68fcf.firebaseapp.com",
-            databaseURL: "https://bitequest-68fcf-default-rtdb.firebaseio.com",
-            projectId: "bitequest-68fcf",
-            storageBucket: "bitequest-68fcf.appspot.com",
-            messagingSenderId: "198288473851",
-            appId: "1:198288473851:web:ca305f85aa1e475d5afa5e",
-            measurementId: "G-NGK8MVZX91"
-            };
+        <div class="results" id="results">
 
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const analytics = getAnalytics(app); 
-            import {getDatabase, onValue, ref, child, get, set, update, remove} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
-            const db = getDatabase();
-            let name = document.getElementById("name");
-            let find = document.getElementById("find");
-            let GetBtn = document.getElementById("GetBtn");
-
-            function GetData() {
-                const dbRef = ref(db);
-                get(child(dbRef, `Rest/${find.value}`)).then((snapshot)=>{
-                    if (snapshot.exists())  {   
-                        name.value = snapshot.val().name;
-                        console.log(snapshot.val().address);
-                        alert("Exists in database");
-                    }
-                    else {
-                        alert("Does not exists");
-                    }
-                }).catch((error)=>{
-                    alert("Unsuccessful");
-                    console.error(error);
-                });
-            }
-            GetBtn.addEventListener("click", GetData);
-        </script>
+        </div>
+        <script type="module" src="trial.js"></script>
+        
     </body>
 </html>

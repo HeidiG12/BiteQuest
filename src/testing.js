@@ -1,12 +1,7 @@
-/*import logo from './logo.svg';
-import './App.css';
-//import './main.html';
-//import './trial.html';
-import './index.html';
-import { initializeApp } from 'firebase/app';
-import {getDatabase, onValue, ref, child, get, set, update, remove} from 'firebase/database';
-import {getAnalytics} from 'firebase/analytics';
-import {getFirestore} from 'firebase/firestore';
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import {getAnalytics} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+import {getFirestore} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import {getDatabase, onValue, ref, child, get, set, update, remove} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 const firebaseConfig = {
 apiKey: "AIzaSyDY7XjksxyklzjofNZ-J3CBYj_ovmA0Oho",
 authDomain: "bitequest-68fcf.firebaseapp.com",
@@ -18,18 +13,24 @@ appId: "1:198288473851:web:ca305f85aa1e475d5afa5e",
 measurementId: "G-NGK8MVZX91"
 };
 
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
-let name = document.getElementById("name");
-let find = document.getElementById("find");
 const dbRef = ref(db);
-const dsrref = ref(db); 
 
-let flavorsDiv = document.getElementById("flavorsDiv");
+const getElementById = (id) => {
+    return document.getElementById(id)
+}
+
+let flavorsButton = document.getElementById("flavorButton");
 let cuisineDiv = document.getElementById("cuisineDiv");
 let restrictDiv = document.getElementById("restrictDiv");
+
+let flavorsDiv = document.getElementById("flavorsDiv");
+flavorsButton.addEventListener("click", function() {
+    console.log("clicked");
+    myDisplay(flavorsDiv);
+}, );
 const buttonGroupPressed = e => { 
     const isButton = e.target.nodeName === 'BUTTON';
     //if(!isButton) {
@@ -45,7 +46,8 @@ const buttonGroupPressed = e => {
         window.open(`destination.html?myVar=${e.target.id}`, "_blank");
     }
 } 
-window.addEventListener("DOMContentLoaded", (event) => {
+
+/*window.addEventListener("DOMContentLoaded", (event) => {
     document.getElementById("flavorButton").addEventListener("click",  function() {
         myDisplay(flavorsDiv);
         console.log("pressed");
@@ -60,7 +62,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         checkingTagsSelected();
     }, );
     document.getElementById("results").addEventListener("click", buttonGroupPressed);
-});
+});*/
 var checkboxes = document.querySelectorAll("input[type=checkbox][name=boxes]");
 let enabledSettings = []
 checkboxes.forEach(function(checkbox) {
@@ -200,8 +202,7 @@ async function sortingResults(sortedArr, tagsSelected, arrFinal) {
     return arrFinal;
 }
 
-export {tagSearch, sortingResults, mixingSort};*/
-
+export {tagSearch, sortingResults, mixingSort};
 /*function App() {
   return (
     <div className="App">
@@ -225,17 +226,3 @@ export {tagSearch, sortingResults, mixingSort};*/
 }*/
 
 //export default App;
-
-import React, {Component} from 'react';
-import './App.css';
-import './Tags.css';
-import {Style} from './style.js';
-import {getData} from './tags';
-import {displayRest} from './displayRest.js';
-
-const App = () => {
-    return (
-        <Style></Style>
-    );
-}
-export default App;

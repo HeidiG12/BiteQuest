@@ -1,7 +1,6 @@
-/*import logo from './logo.svg';
+alert("Hello World!");
+import logo from './logo.svg';
 import './App.css';
-//import './main.html';
-//import './trial.html';
 import './index.html';
 import { initializeApp } from 'firebase/app';
 import {getDatabase, onValue, ref, child, get, set, update, remove} from 'firebase/database';
@@ -17,8 +16,6 @@ messagingSenderId: "198288473851",
 appId: "1:198288473851:web:ca305f85aa1e475d5afa5e",
 measurementId: "G-NGK8MVZX91"
 };
-
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
@@ -45,6 +42,7 @@ const buttonGroupPressed = e => {
         window.open(`destination.html?myVar=${e.target.id}`, "_blank");
     }
 } 
+alert("linked");//console.log("linked");
 window.addEventListener("DOMContentLoaded", (event) => {
     document.getElementById("flavorButton").addEventListener("click",  function() {
         myDisplay(flavorsDiv);
@@ -200,8 +198,7 @@ async function sortingResults(sortedArr, tagsSelected, arrFinal) {
     return arrFinal;
 }
 
-export {tagSearch, sortingResults, mixingSort};*/
-
+export {tagSearch, sortingResults, mixingSort};
 /*function App() {
   return (
     <div className="App">
@@ -225,17 +222,3 @@ export {tagSearch, sortingResults, mixingSort};*/
 }*/
 
 //export default App;
-
-import React, {Component} from 'react';
-import './App.css';
-import './Tags.css';
-import {Style} from './style.js';
-import {getData} from './tags';
-import {displayRest} from './displayRest.js';
-
-const App = () => {
-    return (
-        <Style></Style>
-    );
-}
-export default App;
