@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import React, {Component} from 'react';
-import './App.css';
-import './Tags.css';
-import {Style} from './style.js';
-import {getData} from './tags';
-import {displayRest} from './displayRest.js';
-
-const App = () => {
-    return (
-        <Style></Style>
-    );
-=======
 import logo from './logo.svg';
 import './Component/StyleSheets/App.css';
 
@@ -23,6 +10,9 @@ import Friends from './Component/Pages/Friends';
 import {useEffect} from 'react';
 import { gapi } from 'gapi-script';
 import Profile from "./Component/Pages/Profile";
+import React from 'react';
+import Tags from './Component/Pages/Tags';
+import Results from './Component/Pages/Results';
 
 const clientId = "577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com"
 //Client Secret: 577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com  
@@ -48,10 +38,11 @@ function App() {
           <Route path="/journal" element={<Journal/>}></Route>
           <Route path="/friends" element={<Friends/>}></Route>
           <Route path="/profile" element={<Profile/>}></Route>
+          <Route path="/search" element={<Tags/>}></Route>
+          <Route path="/results/:restaurant" element={<Results/>}></Route>
         </Routes>
       </Router>
     </div>
   );
->>>>>>> 5e2335ce5b9b4571e62b79791db8c0f2f9704f15
 }
 export default App;

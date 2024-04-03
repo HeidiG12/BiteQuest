@@ -97,15 +97,18 @@ function Navbar() {
 
 
       <div style={{ display: 'flex', 'padding-left':'100px','padding-right':'100px' }}> {/* Second row */}
-        <div style={{ width: '33%' }}>
+        <div style={{ width: '25%' }}>
           <Link to="/entries" className="nav-link">Entries</Link>
         </div>
           
-        <div style={{ width: '33%' }}>
+        <div style={{ width: '25%' }}>
           <Link to="/journal" className="nav-link">Journal</Link>
           </div>
-        <div style={{ width: '33%' }}>
+        <div style={{ width: '25%' }}>
           <Link to="/friends" className="nav-link">Friends</Link>
+        </div>
+        <div style={{ width: '25%' }}>
+          <Link to="/search" className="nav-link">Search</Link>
         </div>
       </div>
 
