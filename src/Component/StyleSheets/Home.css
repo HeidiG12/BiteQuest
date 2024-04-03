@@ -1,0 +1,117 @@
+.home {
+    align-items: center;
+    font-family: 'Palanquin', sans-serif;
+    color: #000022;
+  }
+  
+  /*******************************************************************/
+  /* Maybe add header height?*/
+  .header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #000022;
+  }
+  
+  .header h2 {
+    display: flex;
+    font-size: 50px;
+    height: 25px;
+    color: #000022;
+    align-items: left;
+  }
+  
+  .header .prompt {
+    font-size: 30px;
+  }
+  
+  .header .logo1 img {
+    width: 400px;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /*******************************************************************/
+  .about {
+    font-size: 35px;
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    align-items: left;
+    color: #000022
+  }
+  
+  .skills span{
+    font-size: 35px;
+  }
+  
+  .about p {
+    font-size: 18px;
+    width: 85%;
+    text-align: center;
+  }
+  
+  .homePictures {
+    margin: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .homePictures .pic1 img {
+    height: 300px;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  .homePictures .pic2 img {
+    height: 300px;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  .homePictures .pic3 img {
+    height: 300px;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  .about h2 {
+    margin: 0%;
+  }
+  
+  /*******************************************************************/
+  /* IDK what this stuff is*/
+  
+  .about .list {
+    list-style: none;
+    width: 60%;
+  }
+  
+  .list span {
+    font-size: 10px;
+  }
+  
+  @media only screen and (max-width: 900px) {
+    .about h2 {
+      font-size: 40px;
+    }
+  
+    .about .prompt {
+      margin-top: 10px;
+      font-size: 20px;
+      width: 80%;
+    }
+  
+    .about {
+      text-align: center;
+    }
+  
+    .about h2 {
+      font-size: 30px;
+    }
+  }

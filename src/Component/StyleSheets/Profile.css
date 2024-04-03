@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Tac+One&display=swap');
+
+.heading {
+    padding-left: 5%;
+    padding-top: 3%;
+    font-family: "Roboto Condensed", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    margin-bottom: 0;
+}
+
+.paragraph {
+    padding-left: 5%;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#inputBoxSpacing {
+    padding-top: 2%;
+}
+
+
+.my-class {
+    /* background-color: lightblue; */
+    padding-left: 15%;
+    padding-right: 15%;
+    margin: 15px;
+}
+
+
+.signInBackBox {
+    background-color: rgb(234, 234, 234);
+    margin-right: 25%;
+    margin-left: 25%;
+    margin-top: 5%;
+    border-radius: 10px;
+}
+
+.inputBoxSignin {
+    background-color: white;
+    border: 0px;
+    /* Adjusted to make the border visible if needed */
+    margin-right: 5%;
+    margin-left: 5%;
+    font-size: 15px;
+    padding: 5px;
+    width: 90%;
+
+}
+
+.signInButton {
+    background-color: rgb(252, 200, 104);
+    margin-right: 5%;
+    margin-left: 5%;
+    color: white;
+    border: 0;
+    font-weight: bold;
+    width: 90%;
+    border-radius: 5px;
+    font-size: 90%;
+    margin-top: 5%;
+    margin-bottom: 1%;
+    padding: 2%;
+    transition: background-color 0.3s ease;
+}
+
+.signInButton:hover {
+    background-color: orange;
+    /* Darker shade of orange on hover */
+    cursor: pointer;
+}
+
+#centerParagraph {
+    text-align: center;
+    margin-left: 36%;
+}
+
+
+.image-button {
+    background-color: rgb(66, 133, 244);
+    margin-right: 5%;
+    margin-left: 5%;
+    color: white;
+    border: 0;
+    font-weight: bold;
+    width: 50%;
+    margin-left: 25%;
+    border-radius: 5px;
+    font-size: 90%;
+    margin-top: 5%;
+    padding: 1%;
+    transition: background-color 0.3s ease;
+    margin-bottom: 5%;
+}
+
+.image-button:hover {
+    cursor: pointer;
+    background-color: rgb(18, 109, 254);
+}
+
+.button-icon {
+    width: 15px;
+    /* Sets the image width */
+    height: 15px;
+    /* Sets the image height */
+}
