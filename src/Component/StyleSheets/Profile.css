@@ -10,6 +10,17 @@
     margin-bottom: 0;
 }
 
+.headingBig {
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    margin-bottom: 0;
+    font-size: 30px;
+}
+
+
+
+
 .paragraph {
     padding-left: 5%;
     font-family: "Roboto Condensed", sans-serif;
@@ -106,4 +117,85 @@
     /* Sets the image width */
     height: 15px;
     /* Sets the image height */
+}
+
+.profilePageStruct {
+    background-color: white;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 5%;
+
+
+}
+
+.flex-container {
+    display: flex;
+    /* justify-content: space-between; */
+    flex: 1;
+    justify-content: space-between;
+    box-sizing: border-box;
+    /* border: 2px solid RED; */
+    /* This will space out the flex items evenly */
+}
+
+.flex-item {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    /* border: 2px solid black; */
+    /* Example: 2px solid border */
+
+    /* Adjust the width as needed, ensuring they fit in a single row */
+    text-align: center;
+    /* Center the text inside the flex item */
+
+    /* Add some padding for better visuals */
+    box-sizing: border-box;
+    /* Include padding and border in the element's total width and height */
+}
+
+
+.profilePic {
+    width: 140px;
+    margin: 0;
+    padding: 0;
+    height: auto;
+}
+
+
+.profileName {
+    margin-top: 0;
+    font-family: "Roboto", sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.profileUserName {
+    margin-top: 0;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 21px;
+    color: grey;
+    font-weight: bold;
+    align-items: left;
+    text-align: center;
+}
+
+.standardButton {
+    border: none;
+    font-weight: bold;
+    padding: 6px;
+}
+
+.standardButton:hover {
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+
+.userStat {
+    margin: 0;
+    border: 10px;
+
 }
