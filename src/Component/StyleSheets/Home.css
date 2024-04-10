@@ -115,3 +115,42 @@
       font-size: 30px;
     }
   }
+
+  .homePictures {
+    display: flex;
+    flex-flow: row;
+    margin: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .pic {
+    flex: 1;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    border: none;
+    background: none;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+
+  }
+
+  .pic:hover{
+    background-color: lightsalmon;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  
+  .homePictures img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid darkred;
+  }
+  
+  .card-text {
+    font-size: large;
+    font-family: 'Palanquin', sans-serif;
+  }
+  
