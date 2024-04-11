@@ -4,7 +4,7 @@ import "./StyleSheets/Navbar.css";
 import {RiMenu3Line, RiCloseLine} from 'react-icons/ri';
 import logo from '../assets/logo.png';
 import types from "./imgs/dif_types.png";
-import profileIcon from "./imgs/profileIcon.png";
+import profileIcon from "./imgs/profile.png";
 
 function Navbar() {
   const [toggleMenu, setToggleMenu] = useState(false);

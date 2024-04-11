@@ -1,10 +1,12 @@
 import "../StyleSheets/Profile.css";
 import React, { useEffect, useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
-import { auth } from '../fireBaseConfig/OAuth.js';
+import { auth, imageDb } from '../fireBaseConfig/OAuth.js';
 import Cookies from 'js-cookie'; //if error, install with this-> npm install js-cookie --legacy-peer-deps
 import googleLogo from "../imgs/GoogleLogo.png";
 import profile from "../imgs/profile.png";
+import { ref, uploadBytes, deleteObject, getDownloadURL } from 'firebase/storage';
+import {v4} from 'uuid';
 
 
 const Profile = () => {
@@ -17,16 +19,54 @@ const Profile = () => {
       password: '',
   })
   const [editProfile, setEditProfile] = useState(false);
+  const [img, setImg] = useState('https://firebasestorage.googleapis.com/v0/b/bitequest-68fcf.appspot.com/o/files%2Fprofile.png?alt=media&token=56a1d002-8acf-4b35-8e83-45275e8fdabb')
+  const [hasProfilePic, setHasProfilePic] = useState(false);
+  
+  
+
+  const handleChangePhotoClick = async() =>{
+    // setImg('https://firebasestorage.googleapis.com/v0/b/bitequest-68fcf.appspot.com/o/files%2FprofilePic?alt=media&token=2171d7ef-f93d-455d-b4ee-f91a5cd4d0af')
+    // if(hasProfilePic){
+    //   alert("Delete your current photo first (press delete)")
+    // }else{
+      setHasProfilePic(true);
+      const imgRef = ref(imageDb, `files/profilePic`)
+      uploadBytes(imgRef,img)
+      var url = await getDownloadURL(imgRef);
+      
+      setImg(url);
+    //   alert("image set")
+    // }
+  }
+
+  const handleDelete = async () => {
+    const imgref = ref(imageDb, 'files/profilePic');
+    if(!hasProfilePic){
+      alert("No image available to delete");
+    }else{
+    try {
+      // Delete the file
+      await deleteObject(imgref);
+      setHasProfilePic(false);
+      alert('File deleted successfully');
+    } catch (error) {
+      alert('Error during file deletion:', error);
+    }
+  }
+  }
+
+
 
   const handleEditProfileClick = () => {
+
+
     setEditProfile(true); // Updates the state to 'true' when the button is clicked
   };
 
   const handleSaveProfileClick = () => {
+
     setEditProfile(false); // Updates the state to 'false' when the button is clicked
   };
-
-
 
   useEffect(() => {
       // Check if user info is stored in cookies
@@ -35,7 +75,6 @@ const Profile = () => {
           setUserName(userNameFromCookie);
       }
   }, []);
-
 
   const handleGoogle = async (e) => {
       e.preventDefault();
@@ -158,11 +197,8 @@ const Profile = () => {
   };
 
 
-
-
   return (
-
-
+    
   <div>
   {/* THE LOG IN AND SIGN UP OPTION ONLY AVAILABLE IF USERNAME IS TRUE */}
     {!userName &&(
@@ -258,7 +294,7 @@ const Profile = () => {
     
       <div class="flex-container">
         <div class="flex-item">
-          <img className = "profilePic" src = {profile} alt = "profile picture"/>
+          <img className = "profilePic" src = {img} alt = "profile picture"/>
           <h1 className = 'profileName'>{formData.name}</h1>
           <h1 className = 'profileUserName'>{userName}</h1>
           <button className = 'standardButton' onClick={handleEditProfileClick}> Edit Profile </button>
@@ -280,8 +316,74 @@ const Profile = () => {
     )}
 
     {editProfile &&(
-    <div>
-      <button onClick = {handleSaveProfileClick}> Save </button>
+    <div class = 'editPageStruct'>
+      <div class = 'flex-container'>
+          <div class = 'flex-item'>
+            <img className = "profilePic" src = {img} alt = "profile picture"/>
+            
+            <h1 className = 'profileName'>{formData.name}</h1>
+            <h1 className = 'profileUserName'>{userName}</h1>
+            <input type = 'file' style={{ display: 'none' }} class = 'standardButton' onChange={(e)=>setImg(e.target.files[0])}/>
+      
+            <input
+                type="file"
+                id="fileInput"
+                className="file-input"
+                onChange={(e) => setImg(e.target.files[0])}
+                onClick={handleChangePhotoClick}
+                style={{ display: 'none' }} // Hide the actual input element
+              />
+              <label htmlFor="fileInput" className="standardButton">
+                Change Photo
+              </label>
+
+              <button class = 'standardButton' onClick = {handleDelete}>delete</button>
+
+
+          </div>
+
+          <div className = 'flex-item' style={{ width: '90%' }}>
+            
+            
+            <div className="inputGroup editInputBoxSpacing" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label htmlFor="profileName" className="paragraph editInputBoxSpacing" style={{ fontWeight: '500' }}>
+                Profile Name
+              </label>
+              <input
+                id="profileName"
+                className="inputBoxSignin"
+                style={{ border: '1px solid black', borderRadius: '5px', width: '90%' }}
+              />
+            </div>
+
+            <div className="inputGroup" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label htmlFor="profileName" className="paragraph editInputBoxSpacing" style={{ fontWeight: '500' }}>
+                Password
+              </label>
+              <input
+                id="profileName"
+                className="inputBoxSignin"
+                style={{ border: '1px solid black', borderRadius: '5px', width: '90%' }}
+              />
+            </div>
+
+            <div className="inputGroup" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label htmlFor="profileName" className="paragraph editInputBoxSpacing" style={{ fontWeight: '500' }}>
+                Profile Description
+              </label>
+              <textarea
+                id="profileName"
+                className="inputBoxSignin"
+                style={{ border: '1px solid black', borderRadius: '5px', width: '90%','height': '100%', 'padding-bottom':'100px' }}
+              />
+              <button 
+              onClick = {handleSaveProfileClick}
+              class = 'saveButton'
+              > Save </button>
+            </div>
+          </div>
+          
+      </div>
     </div>
     )}
                
