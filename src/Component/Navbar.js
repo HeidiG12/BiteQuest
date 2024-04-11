@@ -102,7 +102,7 @@ function Navbar() {
         </div>
           
         <div style={{ width: '33%' }}>
-          <Link to="/journal" className="nav-link">Journal</Link>
+          <Link to="/journal" className="nav-link">Write a Review</Link>
           </div>
         <div style={{ width: '33%' }}>
           <Link to="/friends" className="nav-link">Friends</Link>
