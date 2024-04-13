@@ -10,9 +10,13 @@ import Friends from './Component/Pages/Friends';
 import {useEffect} from 'react';
 import { gapi } from 'gapi-script';
 import Profile from "./Component/Pages/Profile";
+import React from 'react';
+import Tags from './Component/Pages/Tags';
+import Results from './Component/Pages/Results';
 
 const clientId = "577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com"
-//Client Secret: 577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com  
+//Client Secret: 577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com 
+
 
 function App() {
   useEffect(()=>{
@@ -35,10 +39,11 @@ function App() {
           <Route path="/journal" element={<Journal/>}></Route>
           <Route path="/friends" element={<Friends/>}></Route>
           <Route path="/profile" element={<Profile/>}></Route>
+          <Route path="/search" element={<Tags/>}></Route>
+          <Route path="/results/:restaurant" element={<Results/>}></Route>
         </Routes>
       </Router>
     </div>
   );
 }
-
 export default App;

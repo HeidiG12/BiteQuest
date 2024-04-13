@@ -233,7 +233,6 @@ const Profile = () => {
             <div>
               <input className="inputBoxSignin" 
                 name="username"
-                className="inputBoxSignin"
                 value={formData.username}
                 onChange={handleInputChange}
               />

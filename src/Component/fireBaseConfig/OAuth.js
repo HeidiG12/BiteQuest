@@ -6,7 +6,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'; // IF ERROR WITH FIREBASE, USE -> npm install firebase  --legacy-peer-deps
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase } from "firebase/database"; // Import if you're using Firebase Realtime Database
+import { getDatabase, ref } from "firebase/database"; // Import if you're using Firebase Realtime Database
 import { getStorage } from 'firebase/storage';
 
 
@@ -30,7 +30,10 @@ const auth = getAuth(app);
 const database = getDatabase(app); // If using Firebase Realtime Database
 const analytics = typeof window !== "undefined" ? getAnalytics(app) : null; // Conditional use of getAnalytics to avoid errors in non-browser environments
 
+const db = getDatabase();
+const dbRef = ref(db);
+
 // Export the initialized Firebase services
 const imageDb = getStorage(app)
-export { app, auth, database, analytics, imageDb};
+export { app, auth, database, analytics, imageDb,  db, dbRef};
 

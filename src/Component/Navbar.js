@@ -4,7 +4,7 @@ import "./StyleSheets/Navbar.css";
 import {RiMenu3Line, RiCloseLine} from 'react-icons/ri';
 import logo from '../assets/logo.png';
 import types from "./imgs/dif_types.png";
-import profileIcon from "./imgs/profile.png";
+import profileIcon from "./imgs/profileIcon.png";
 
 function Navbar() {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -97,15 +97,18 @@ function Navbar() {
 
 
       <div style={{ display: 'flex', 'padding-left':'100px','padding-right':'100px' }}> {/* Second row */}
-        <div style={{ width: '33%' }}>
+        <div style={{ width: '25%' }}>
           <Link to="/entries" className="nav-link">Entries</Link>
         </div>
           
-        <div style={{ width: '33%' }}>
-          <Link to="/journal" className="nav-link">Write a Review</Link>
+        <div style={{ width: '25%' }}>
+          <Link to="/journal" className="nav-link">Journal</Link>
           </div>
-        <div style={{ width: '33%' }}>
+        <div style={{ width: '25%' }}>
           <Link to="/friends" className="nav-link">Friends</Link>
+        </div>
+        <div style={{ width: '25%' }}>
+          <Link to="/search" className="nav-link">Search</Link>
         </div>
       </div>
 
