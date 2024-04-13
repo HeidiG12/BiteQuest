@@ -10,6 +10,17 @@
     margin-bottom: 0;
 }
 
+.headingBig {
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    margin-bottom: 0;
+    font-size: 30px;
+}
+
+
+
+
 .paragraph {
     padding-left: 5%;
     font-family: "Roboto Condensed", sans-serif;
@@ -106,4 +117,126 @@
     /* Sets the image width */
     height: 15px;
     /* Sets the image height */
+}
+
+.profilePageStruct {
+    background-color: white;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 5%;
+
+}
+
+.flex-container {
+    display: flex;
+    /* justify-content: space-between; */
+    flex: 1;
+    justify-content: space-between;
+    box-sizing: border-box;
+    /* border: 2px solid RED; */
+
+    /* This will space out the flex items evenly*/
+}
+
+.flex-item {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    /* border: 2px solid black; */
+
+
+    /* Adjust the width as needed, ensuring they fit in a single row */
+    text-align: center;
+    /* Center the text inside the flex item */
+
+    /* Add some padding for better visuals */
+    box-sizing: border-box;
+    /* Include padding and border in the element's total width and height */
+}
+
+
+.profilePic {
+    width: 140px;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    border-radius: 100px;
+}
+
+
+.profileName {
+    margin-top: 0;
+    font-family: "Roboto", sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.profileUserName {
+    margin-top: 0;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 21px;
+    color: black;
+    font-weight: bold;
+    align-items: left;
+    text-align: center;
+}
+
+.standardButton {
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: rgb(237, 237, 237);
+    padding: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.standardButton:hover {
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: rgb(219, 219, 219);
+
+}
+
+.userStat {
+    margin: 0;
+    border: 10px;
+
+}
+
+
+.editPageStruct {
+    /* background-color: rgb(241, 241, 241); */
+    margin-left: 28%;
+    margin-right: 28%;
+    margin-top: 5%;
+
+}
+
+.editInputBoxSpacing {
+    margin-top: 11px;
+}
+
+
+.saveButton {
+    background-color: rgb(252, 200, 104);
+    margin-right: 5%;
+    margin-left: 5%;
+    color: white;
+    border: 0;
+    font-weight: bold;
+    width: 15%;
+    border-radius: 50px;
+    font-size: 100%;
+    margin: 5%;
+    padding: 4px;
+    transition: background-color 0.3s ease;
+
+}
+
+.saveButton:hover {
+    background-color: orange;
+    /* Darker shade of orange on hover */
+    cursor: pointer;
 }

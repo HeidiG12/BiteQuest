@@ -6,7 +6,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'; // IF ERROR WITH FIREBASE, USE -> npm install firebase  --legacy-peer-deps
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref} from "firebase/database"; // Import if you're using Firebase Realtime Database
+import { getDatabase, ref } from "firebase/database"; // Import if you're using Firebase Realtime Database
+import { getStorage } from 'firebase/storage';
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -32,5 +34,6 @@ const db = getDatabase();
 const dbRef = ref(db);
 
 // Export the initialized Firebase services
-export { app, auth, database, analytics,  db, dbRef};
+const imageDb = getStorage(app)
+export { app, auth, database, analytics, imageDb,  db, dbRef};
 

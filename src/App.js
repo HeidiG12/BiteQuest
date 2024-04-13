@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './Component/StyleSheets/App.css';
+import './Component/StyleSheets/Component/StyleSheets/App.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Component/Navbar';
@@ -15,7 +15,8 @@ import Tags from './Component/Pages/Tags';
 import Results from './Component/Pages/Results';
 
 const clientId = "577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com"
-//Client Secret: 577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com  
+//Client Secret: 577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com 
+
 
 function App() {
   useEffect(()=>{
