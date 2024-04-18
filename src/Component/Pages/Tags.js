@@ -42,7 +42,7 @@ const Tags = () => {
         
                 <div id="selectedDiv" className="selectedDiv">
                     {allchecked.map(item => (
-                        <label>{item}</label>
+                        <label className="selectedLabels">{item}</label>
                     ))}
                 </div>
                 <br></br>

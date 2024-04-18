@@ -15,7 +15,7 @@ align-items: center;
 justify-content: center;
 }
 
-button {
+.try {
 display:inline-block;
 width:10em;
 height: 3em;
@@ -26,7 +26,7 @@ text-align:center;
 font-size: 1em;
 margin: 10px;
 }
-button:hover {
+.try:hover {
 background: lavender;
 cursor:pointer;
 }
@@ -75,7 +75,52 @@ background: lightcoral;
 cursor:pointer;
 }
 
-label {
+.flavorLabel {
+display:inline-block;
+width:auto;
+height: 2em;
+border:0px solid #000;
+background:#f2f2f2;
+border-radius:10px;
+text-align:center;
+padding-top: 1em;
+font-size:1.2rem;
+margin-top: 1em;
+padding-left: 1em;
+padding-right: 1em;
+margin: 5px;
+}
+.cuisineLabel {
+display:inline-block;
+width:auto;
+height: 2em;
+border:0px solid #000;
+background:#f2f2f2;
+border-radius:10px;
+text-align:center;
+padding-top: 1em;
+font-size:1.2rem;
+margin-top: 1em;
+padding-left: 1em;
+padding-right: 1em;
+margin: 5px;
+}
+.restrictLabel {
+display:inline-block;
+width:auto;
+height: 2em;
+border:0px solid #000;
+background:#f2f2f2;
+border-radius:10px;
+text-align:center;
+padding-top: 1em;
+font-size:1.2rem;
+margin-top: 1em;
+padding-left: 1em;
+padding-right: 1em;
+margin: 5px;
+}
+.selectedLabels {
 display:inline-block;
 width:auto;
 height: 2em;
