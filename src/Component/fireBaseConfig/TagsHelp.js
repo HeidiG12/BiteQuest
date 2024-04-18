@@ -68,7 +68,7 @@ async function tagSearch(tagsSelected)  {
         console.log("element: ", tag);
         index += 1;
         await get(child(dbRef, `Tags/${tag.toUpperCase()}`)).then((snapshot)=>{
-            if (snapshot.exists) {
+            if (snapshot.exists()) {
                 console.log("exists");
             }
             sortedArr = mixingSort(snapshot, sortedArr, index);

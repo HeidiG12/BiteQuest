@@ -21,7 +21,7 @@ function Results() {
         async function getData() {
             console.log("getting Data");
             await get(child(dbRef, `Restaurants/${restaurant}`)).then((snapshot)=> {
-                if(snapshot.exists) {
+                if(snapshot.exists()) {
                     console.log("existing right here");
                     setRestName(snapshot.val().name);
                     setAddress(snapshot.val().address);
