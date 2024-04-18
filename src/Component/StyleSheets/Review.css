@@ -1,0 +1,59 @@
+.reviewForm {
+    justify-content: center;
+    border-radius: 10px;
+    display: flex;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+.description {
+    display: block;
+    align-items: center;
+    resize: none;
+}
+.descriptionLabel {
+    display: block;
+}
+.hoursInput {
+    width: 20%;
+}
+.restInput {
+    width: 77.5%;
+}
+.addressInput {
+    width: 77.5%;
+}
+.reviewSubmit {
+    text-align: center;
+    background-color: f2f2f2;
+    justify-content: center;
+    border-radius: 5px;
+    margin-top: 5%;
+    margin-left: 50%;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+.reviewSubmit:hover {
+    background: orange;
+    cursor:pointer;
+}
+.formDiv {
+    background-color: bisque;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-radius: 10px;
+    display: block;
+}
+.selectedReviewDiv {
+    border: 1px solid lightgrey;
+    padding-left: 1em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    padding-right: 1em;
+    width: auto;
+    text-align: center;
+    align-items: center;
+}
