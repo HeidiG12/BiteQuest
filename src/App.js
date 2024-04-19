@@ -15,6 +15,13 @@ import Tags from './Component/Pages/Tags';
 import Results from './Component/Pages/Results';
 import Review from './Component/Pages/Review';
 import Joyin from './Component/Pages/Joyin';
+import Tina from './Component/Pages/Tina';
+import Heidi from './Component/Pages/Heidi';
+import Jess from './Component/Pages/Jess';
+import Tenders from './Component/Pages/Tenders';
+import Albert from './Component/Pages/Albert';
+import Alberta from './Component/Pages/Alberta';
+import Gator from './Component/Pages/Gator';
 
 const clientId = "577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com"
 //Client Secret: 577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com 
@@ -38,7 +45,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}></Route>
           <Route path="/entries" element={<Entries/>}></Route>
-          <Route path="/journal" element={<Journal/>}></Route>
           <Route path="/friends" element={<Friends/>}></Route>
           <Route path="/profile" element={<Profile/>}></Route>
           <Route path="/review" element={<Review/>}></Route>
@@ -46,6 +52,14 @@ function App() {
           <Route path="/results/:restaurant" element={<Results/>}></Route>
           <Route path="/:restaurant" element={<Home/>}></Route>
           <Route path="/friends/Joyin" element={<Joyin/>}></Route>
+          <Route path="/friends/Tina" element={<Tina/>}></Route>
+          <Route path="/friends/Heidi" element={<Heidi/>}></Route>
+          <Route path="/friends/Jess" element={<Jess/>}></Route>
+          <Route path="/friends/Tenders" element={<Tenders/>}></Route>
+          <Route path="/friends/Albert" element={<Albert/>}></Route>
+          <Route path="/friends/Alberta" element={<Alberta/>}></Route>
+          <Route path="/friends/Gator" element={<Gator/>}></Route>
+
         </Routes>
       </Router>
     </div>

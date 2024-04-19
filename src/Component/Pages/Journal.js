@@ -8,7 +8,7 @@ function Journal() {
   };
 
   return (
-    <div className="home">
+    <div className="home"> 
       <div className="header">
         <div className="logo1"></div>
       </div>

@@ -46,8 +46,8 @@ const Friends = () => {
                 display: "flex",
                 flexDirection: "column",
               }}
-              to={`/results/${"MAUDE'S CAFE"}`}
-              id={"MAUDE'S CAFE"}
+              to={`/friends/Tina`}
+              id={"Tina"}
               className="homeResults"
             >
               <button className="buttonEdit">
@@ -65,8 +65,8 @@ const Friends = () => {
                 display: "flex",
                 flexDirection: "column",
               }}
-              to={`/results/${"SUBLIME TACOS"}`}
-              id={"SUBLIME TACOS"}
+              to={`/friends/Heidi`}
+              id={"Heidi"}
               className="homeResults"
             >
               <button className="buttonEdit">
@@ -84,8 +84,8 @@ const Friends = () => {
                 display: "flex",
                 flexDirection: "column",
               }}
-              to={`/results/${"FLACO'S CUBAN BAKERY"}`}
-              id={"FLACO'S CUBAN BAKERY"}
+              to={`/friends/Jess`}
+              id={"Jess"}
               className="homeResults"
             >
               <button className="buttonEdit">
@@ -105,8 +105,8 @@ const Friends = () => {
                 display: "flex",
                 flexDirection: "column",
               }}
-              to={`/results/${"CRY BABY’S"}`}
-              id={"CRY BABY’S"}
+              to={`/friends/Tenders`}
+              id={"Tenders"}
               className="homeResults"
             >
               <button className="buttonEdit">
@@ -124,8 +124,8 @@ const Friends = () => {
                 display: "flex",
                 flexDirection: "column",
               }}
-              to={`/results/${"BOLAY FRESH BOLD KITCHEN"}`}
-              id={"BOLAY FRESH BOLD KITCHEN"}
+              to={`/friends/Albert`}
+              id={"Albert"}
               className="homeResults"
             >
               <button className="buttonEdit">
@@ -143,8 +143,8 @@ const Friends = () => {
                 display: "flex",
                 flexDirection: "column",
               }}
-              to={`/results/${"PARIS BANH MI"}`}
-              id={"PARIS BANH MI"}
+              to={`/friends/Alberta`}
+              id={"Alberta"}
               className="homeResults"
             >
               <button className="buttonEdit">
@@ -162,8 +162,8 @@ const Friends = () => {
                 display: "flex",
                 flexDirection: "column",
               }}
-              to={`/results/${"MI APÁ LATIN CAFÉ"}`}
-              id={"MI APÁ LATIN CAFÉ"}
+              to={`/friends/Gator`}
+              id={"Gator"}
               className="homeResults"
             >
               <button className="buttonEdit">

@@ -1,27 +1,27 @@
 import "../StyleSheets/Profile.css";
 import React from "react";
-import pic1 from "../imgs/mountain.jpeg";
+import pic2 from "../imgs/ocean.jpg";
 
 const Joyin = () => {
   return (
     <div className="profilePageStruct">
       <div class="flex-container">
         <div class="flex-item">
-          <img className="profilePic" src={pic1} alt="profile picture" />
-          <h1 className="profileName">Joyin</h1>
-          <h1 className="profileUserName">Joyin123</h1>
+          <img className="profilePic" src={pic2} alt="profile picture" />
+          <h1 className="profileName">Heidi</h1>
+          <h1 className="profileUserName">Heidi24</h1>
         </div>
 
         <div class="flex-item" style={{ width: "90%", "padding-top": "10px" }}>
           <div className="flex-container">
             <div class="flex-item headingBig" style={{ width: "90%" }}>
-              2 Reviews
+              5 Reviews
             </div>
             <div class="flex-item headingBig" style={{ width: "90%" }}>
               3 Friends
             </div>
             <div class="flex-item headingBig" style={{ width: "90%" }}>
-              4 Following
+              6 Following
             </div>
           </div>
           <p style={{textAlign:"left"}}>add follow button</p>
@@ -43,7 +43,7 @@ const Joyin = () => {
               "margin-top": "10px",
             }}
           >
-            Words of profile bio
+            I love hispanic food!!!!
           </h1>
         </div>
       </div>

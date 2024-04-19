@@ -100,10 +100,6 @@ function Navbar() {
         <div style={{ width: '20%' }}>
           <Link to="/entries" className="nav-link">Entries</Link>
         </div>
-          
-        <div style={{ width: '20%' }}>
-          <Link to="/journal" className="nav-link">Journal</Link>
-          </div>
         <div style={{ width: '20%' }}>
           <Link to="/friends" className="nav-link">Friends</Link>
         </div>
