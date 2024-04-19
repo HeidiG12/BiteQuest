@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import "../StyleSheets/Results.css";
 import { useParams } from 'react-router-dom';
 import {db, dbRef} from '../fireBaseConfig/OAuth'
 import {get, child} from "firebase/database";

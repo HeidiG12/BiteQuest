@@ -14,6 +14,7 @@ import React from 'react';
 import Tags from './Component/Pages/Tags';
 import Results from './Component/Pages/Results';
 import Review from './Component/Pages/Review';
+import Joyin from './Component/Pages/Joyin';
 
 const clientId = "577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com"
 //Client Secret: 577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com 
@@ -43,6 +44,8 @@ function App() {
           <Route path="/review" element={<Review/>}></Route>
           <Route path="/search" element={<Tags/>}></Route>
           <Route path="/results/:restaurant" element={<Results/>}></Route>
+          <Route path="/:restaurant" element={<Home/>}></Route>
+          <Route path="/friends/Joyin" element={<Joyin/>}></Route>
         </Routes>
       </Router>
     </div>
