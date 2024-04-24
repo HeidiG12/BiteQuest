@@ -2,7 +2,38 @@
   align-items: center;
   font-family: "Palanquin", sans-serif;
   color: #000022;
+
 }
+
+.layout {
+  margin-left: 30px;
+  margin-right: 30px;
+  padding-left: 20%;
+  padding-right: 20%;
+  font-family: "Roboto Condensed", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+}
+
+.center {
+  padding-left: 25%;
+  padding-right: 25%;
+}
+
+.search {
+  padding: 2px 15px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid rgb(255, 188, 54);
+  background-color: rgb(255, 242, 223);
+  color: black;
+  margin-right: 0px;
+
+}
+
+
+
 
 /*******************************************************************/
 /* Maybe add header height?*/
@@ -32,6 +63,15 @@
   width: 400px;
   height: auto;
   object-fit: contain;
+}
+
+.standardButton {
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: rgb(255, 221, 183);
+  padding: 6px;
+  transition: background-color 0.3s ease;
 }
 
 /*******************************************************************/

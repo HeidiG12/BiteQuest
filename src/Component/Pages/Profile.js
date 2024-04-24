@@ -10,16 +10,17 @@ import googleLogo from "../imgs/GoogleLogo.png";
 import profile from "../imgs/profile.png";
 import img from "../imgs/profleAv.png";
 import {v4} from 'uuid';
-import { getDatabase, ref, get,set } from "firebase/database";
+import { getDatabase, ref, onValue,get,set } from "firebase/database";
 
 
 
 const Profile = () => {
   const {currentUser} = useAuth();
   const db = getDatabase();
-
+  const [profile, setProfile] = useState(null);
   const [profileName, setProfileName] = useState('');
   const [profileDescription, setProfileDescription] = useState('');
+  const [numFollowing, setNumFollowing] = useState(0);
 
 
   const [userName, setUserName] = useState('');
@@ -38,15 +39,30 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
       get(userRef).then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
+
+          const unsubscribe = onValue(userRef, (snapshot) => {
+            if (snapshot.exists()) {
+                setProfile(snapshot.val());
+            } else {
+                setProfile(null);
+            }
+        }, {
+            onlyOnce: true // If you want to fetch data only once and not listen for changes
+        });
+
           setProfileName(data.ProfileName || currentUser.uid);  // Use existing or UID if no profile name
           setProfileDescription(data.ProfileDescription || DEFAULT_PROFILE_DESCRIPTION);  // Default description if empty
+          setNumFollowing(data.numFollowing || profile.numFollowing)
+          
         } else {
           // Set defaults if no data exists
           if (currentUser) {
             set(ref(db, 'users/' + currentUser.uid), {
               ProfileName: profileName,
               ProfileDescription: profileDescription,
-              Email: currentUser.email
+              Email: currentUser.email,
+              numFollowing: 0
+              
             })
             .then(() => {
               console.log("Data saved successfully!");
@@ -57,6 +73,7 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
           } else {
             console.log("No user logged in");
           }
+          setNumFollowing(0);
           setProfileName(currentUser.displayName);  
           setProfileDescription(DEFAULT_PROFILE_DESCRIPTION);
         }
@@ -89,7 +106,9 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
     if (currentUser) {
       set(ref(db, 'users/' + currentUser.uid), {
         ProfileName: profileName,
-        ProfileDescription: profileDescription
+        ProfileDescription: profileDescription,
+        Email: currentUser.email,
+        numFollowing: profile.numFollowing
       })
       .then(() => {
         console.log("Data saved successfully!");
@@ -141,6 +160,7 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
           await signOut(auth); // Sign out the user
           Cookies.remove('userName'); // Remove the user's name from cookies
           setUserName(''); // Optionally reset userName state if you still need it for any reason
+          
       } catch (error) {
           console.error("SignOut error:", error);
       }
@@ -367,7 +387,7 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
         <div class = "flex-item" style={{ width: '90%','padding-top':'10px'}}>
           <div className = 'flex-container'>
           <div class="flex-item headingBig" style={{ width: '40%' }}>0 Reviews</div>
-          <div class="flex-item headingBig" style={{ width: '40%' }}>{followingCount} Following</div>
+          <div class="flex-item headingBig" style={{ width: '40%' }}>{numFollowing} Following</div>
           <button className = 'standardButton flex-item headingBig'style={{'margin-right':'30px' }} onClick={handleLogout}>Logout</button>           
         </div>
         <h1 className = 'profileName' style={{ 'text-align': 'left', 'margin-left': '75px','margin-top' :'30px' }}>Profile Bio</h1>
