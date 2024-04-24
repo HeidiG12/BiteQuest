@@ -256,7 +256,7 @@ function Friends() {
 
       <div class = "flex-item" style={{ width: '100%','padding-top':'10px'}}>
         <div className = 'flex-container'>
-        <div class="flex-item headingBig" style={{ width: '40%' }}>0 Reviews</div> 
+        <div class="flex-item headingBig" style={{ width: '40%' }}>2 Reviews</div> 
         <div class="flex-item headingBig" style={{ width: '40%' ,'margin-right':'220px' }}>0  Following</div> 
         {/* {searchResults.map((result) => (
     <h key={result.userId}>{result.numFollowingCountfound}</h>
@@ -274,9 +274,38 @@ function Friends() {
     {/* <button className = 'standardButton' onClick={handleLogout}>Logout</button> */}
 
     </div>
+    <div>
+          <h1>Recent Entries</h1>
+
+            <div>
+              <div className="base">
+                <div className="line">
+                  <label className="name">Restaurant: Cava</label>
+                  <label className="date">April 24, 2024</label>
+                </div>
+                <br></br><br></br>
+                <label className="entriesPost">Really good food and would come again!</label><br></br>
+              </div>
+              <br></br>
+            </div>
 
 
+            <div>
+              <div className="base">
+                <div className="line">
+                  <label className="name">Restaurant: Pascals</label>
+                  <label className="date">April 24, 2024</label>
+                </div>
+                <br></br><br></br>
+                <label className="entriesPost">Really good coffee spots!</label><br></br>
+              </div>
+              <br></br>
+            </div>
 
+
+          ))
+          }
+        </div>
 
       </div>
     )}

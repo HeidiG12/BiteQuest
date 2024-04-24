@@ -386,7 +386,7 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
 
         <div class = "flex-item" style={{ width: '90%','padding-top':'10px'}}>
           <div className = 'flex-container'>
-          <div class="flex-item headingBig" style={{ width: '40%' }}>0 Reviews</div>
+          <div class="flex-item headingBig" style={{ width: '40%' }}>2 Reviews</div>
           <div class="flex-item headingBig" style={{ width: '40%' }}>{numFollowing} Following</div>
           <button className = 'standardButton flex-item headingBig'style={{'margin-right':'30px' }} onClick={handleLogout}>Logout</button>           
         </div>
