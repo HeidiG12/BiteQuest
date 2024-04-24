@@ -10,7 +10,6 @@ import {v4} from 'uuid';
 
 
 const Profile = () => {
-
   const [userName, setUserName] = useState('');
   const [formData, setFormData] = useState({
       name: '',
@@ -196,6 +195,24 @@ const Profile = () => {
     // setUserName(formData.userName)
   };
 
+  // New state to hold the following count
+  const [followingCount, setFollowingCount] = useState(0);
+
+  // Function to fetch friends data from local storage
+  const getFriendsData = () => {
+    const storedFriendsData = localStorage.getItem('friendsData');
+    return storedFriendsData ? JSON.parse(storedFriendsData) : [];
+  };
+
+  // useEffect hook to update following count
+  useEffect(() => {
+    const friendsData = getFriendsData();
+    const friendsCount = friendsData.reduce((count, friend) => {
+      return friend.follow ? count + 1 : count;
+    }, 0);
+    setFollowingCount(friendsCount);
+  }, []);
+
 
   return (
     
@@ -302,10 +319,9 @@ const Profile = () => {
         <div class = "flex-item" style={{ width: '90%','padding-top':'10px'}}>
           <div className = 'flex-container'>
           <div class="flex-item headingBig" style={{ width: '90%' }}>0 Reviews</div>
-          <div class="flex-item headingBig" style={{ width: '90%' }}>0 Friends</div>
-          <div class="flex-item headingBig" style={{ width: '90%' }}>0 Following</div>          
+          <div class="flex-item headingBig" style={{ width: '90%' }}>{followingCount} Following</div>          
         </div>
-        <h1 className = 'profileName' style={{ 'text-align': 'left', 'margin-left': '45px','margin-top' :'30px' }}>Profile Bio</h1>
+        <h1 className = 'profileName' style={{ 'text-align': 'left', 'margin-left': '77px','margin-top' :'30px' }}>Profile Bio</h1>
         <h1 className = 'paragraph' style={{ 'text-align': 'left', 'margin-left': '9px','margin-top' :'10px' }}>As a self-proclaimed foodie, I embark on a never-ending journey fueled by a profound passion for exploring the vast world of flavors, textures, and aromas. My days are marked by the anticipation of discovering new dishes and the stories behind them, whether it's a hidden street food stall offering the perfect bite of spicy, tangy chaat, or a high-end restaurant that transforms familiar ingredients into works of edible art. I find joy in the details—the history of a centuries-old recipe, the careful balance of spices in a regional dish, or the innovative techniques chefs use to push the boundaries of what we consider food. Sharing these experiences, whether through vivid descriptions, tips on where to find the best eats, or discussions about the cultural significance of food, is just as thrilling as the quest itself. For me, food is more than sustenance; it's a language that communicates love, tradition, innovation, and community.</h1>
         </div>
       </div>
@@ -318,8 +334,7 @@ const Profile = () => {
     <div class = 'editPageStruct'>
       <div class = 'flex-container'>
           <div class = 'flex-item'>
-            <img className = "profilePic" src = {img} alt = "profile picture"/>
-            
+            <img className = "profilePic" src = {img} alt = "profile picture"/>       
             <h1 className = 'profileName'>{formData.name}</h1>
             <h1 className = 'profileUserName'>{userName}</h1>
             <input type = 'file' style={{ display: 'none' }} class = 'standardButton' onChange={(e)=>setImg(e.target.files[0])}/>
