@@ -62,6 +62,15 @@
   gap: 10px;
 }
 
+.recent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+  margin-left: 10%;
+  margin-right: 10%
+}
+
 .homePictures .pic1 img {
   height: 300px;
   width: auto;
@@ -89,7 +98,6 @@
   display: flex;
   justify-content: left;
   align-items: left;
-  margin-left: 5%;
   margin-top: 0%;
   margin-bottom: 0%;
   font-size: 20px;
@@ -140,15 +148,49 @@
   margin-right: 1rem;
   margin-top: 1rem;
   text-align: center;
-  border: none;
-  background: none;
   transition: background-color 0.3s ease;
   border-radius: 10px;
+  border: none;
+  background: none;
+}
+
+.buttonEdit {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.buttonEditRecent {
+  border: 5px;
+  background-color: none;
+  border: 2px solid darkred;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: large;
+  font-family: "Alike", sans-serif;
+  width: 15em;
+  height: 10em;
+  word-wrap: break-word;
+  overflow-y: scroll;
+  margin-top: 1rem;
+}
+::-webkit-scrollbar{
+  width: 0;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+.buttonEditRecent:hover {
+  background-color: lightsalmon;
+}
+
+.cap {
+  text-align: center;
+  font-size: medium;
+  margin-bottom: 1rem;
+
 }
 
 .pic:hover {
   background-color: lightsalmon;
-  cursor: pointer;
   border-radius: 10px;
 }
 
@@ -160,6 +202,12 @@
 }
 
 .card-text {
+  font-size: large;
+  font-family: "Alike", sans-serif;
+}
+
+.homeResults {
+  background-color: transparent;
   font-size: large;
   font-family: "Alike", sans-serif;
 }

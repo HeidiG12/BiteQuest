@@ -7,10 +7,17 @@
     border-radius: 10px;
     margin-left: 25%;
     margin-right: 25%;
+    font-family: "Alike", sans-serif;
+    font-size: large;
+    word-wrap: break-word;
 }
 .line {
     display: inline;
+    text-align: right;
 }
-.name {
-    margin-right: 50%;
+.names {
+    float: left;
+}
+.date {
+    float: right;
 }

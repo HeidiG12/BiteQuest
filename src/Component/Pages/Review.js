@@ -84,14 +84,15 @@ const Review = () => {
                 get(child(dbRef, `Restaurants/${restaurantInput.toUpperCase()}/post`)).then((snapshot)=>{
                     const newPostKey = push(child(dbRef, `Reviews`)).key;
                     updates[`Restaurants/${restaurantInput.toUpperCase()}/post/${newPostKey}`] = description;
-                    //Updates review on users folder in database 
-                    updates[`users/${auth.currentUser.uid}/entries/${newPostKey}`] = restaurantInput.toUpperCase();
-                    updates[`users/${auth.currentUser.uid}/entriespost/${newPostKey}`] = description;
+                    //Updates review on usersData folder in database 
+                    updates[`usersData/${auth.currentUser.uid}/entries/${newPostKey}`] = restaurantInput.toUpperCase();
+                    updates[`usersData/${auth.currentUser.uid}/entriespost/${newPostKey}`] = description;
+                    updates[`usersData/${auth.currentUser.uid}/profilename`] = auth.currentUser.displayName;
                     updates[`Reviews/${newPostKey}`] = auth.currentUser.uid;
                     //Add timestamp for Date 
                     const time = Timestamp.now();
                     console.log(`Date: ${time.toDate().toLocaleDateString()}`);
-                    updates[`users/${auth.currentUser.uid}/entriestime/${newPostKey}`] = time.toDate().toLocaleDateString();
+                    updates[`usersData/${auth.currentUser.uid}/entriestime/${newPostKey}`] = time.toDate().toLocaleDateString();
                     update(dbRef, updates);
                 });
                 allchecked.forEach((tag) => {
@@ -180,7 +181,7 @@ const Review = () => {
             <div className="formDiv"> 
             <p>Submit a new restaurant</p> 
             <label className="restaurantName">
-                Name: <input required className="restInput" onChange={(e) => setSubmitNewName(e.target.value)}/> 
+                Name: <input required className="restInputNew" onChange={(e) => setSubmitNewName(e.target.value)}/> 
             </label> 
             <br></br>
             <label className="restaurantAddress">

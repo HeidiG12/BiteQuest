@@ -7,18 +7,40 @@
     border-radius: 10px;
     margin-left: 25%;
     margin-right: 25%;
+    font-family: "Alike", sans-serif;
+    font-size: large;
+    word-wrap: break-word;
 }
 .lineResults {
     display: inline;
 }
 .nameResults {
-    margin-right: 70%;
+    float: left;
+}
+.dateResults {
+    float: right;
 }
 .founder {
-    margin-left: 80%
+    margin-right: 10%; 
+    float: right;
+    font-family: "Alike", sans-serif;
+
 }
 .sectionTitle {
     text-align:center;
     color: black;
     font-family: "Palanquin", sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: black;
+  font-family: "Palanquin", sans-serif;
+}
+
+p {
+  text-align: center;
+  color: black;
+  font-family: "Alike", sans-serif;
+  font-size: large;
 }

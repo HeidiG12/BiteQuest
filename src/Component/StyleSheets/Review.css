@@ -4,15 +4,40 @@
     display: flex;
     margin-left: 25%;
     margin-right: 25%;
+    font-family: "Alike", sans-serif;
+    font-size: large;
+}
+.description {
+    display: block;
+    align-items: center;
+    resize: none;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-family: "Alike", sans-serif;
+}
+.descriptionLabel {
+    display: block;
+    font-family: "Alike", sans-serif;
+    font-size: large;
 }
 .hoursInput {
     width: 20%;
+    font-family: "Alike", sans-serif;
 }
 .restInput {
     width: 77.5%;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-family: "Alike", sans-serif;
+    font-size: large;
+}
+.restInputNew {
+    width: 77.5%;
+    font-family: "Alike", sans-serif;
 }
 .addressInput {
     width: 77.5%;
+    font-family: "Alike", sans-serif;
 }
 .reviewSubmit {
     text-align: center;
@@ -20,11 +45,13 @@
     justify-content: center;
     border-radius: 5px;
     margin-top: 5%;
-    margin-left: 50%;
+    margin-left: 45%;
     padding-left: 2%;
     padding-right: 2%;
     padding-top: 2%;
     padding-bottom: 2%;
+    font-family: "Alike", sans-serif;
+    font-size: medium;
 }
 .reviewSubmit:hover {
     background: orange;

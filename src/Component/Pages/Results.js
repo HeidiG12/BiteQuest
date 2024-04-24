@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import "../StyleSheets/Results.css";
 import { useParams } from 'react-router-dom';
 import {db, dbRef} from '../fireBaseConfig/OAuth'
 import {get, child, query, limitToLast, ref} from "firebase/database";
@@ -40,28 +41,25 @@ function Results() {
             await get(child(dbRef, `Reviews/${key}`)).then((snapshot)=> {
               userArr.push(snapshot.val());
             });
-            await get(child(dbRef, `users/${userArr[iter]}/entriestime/${keysArr[iter]}`)).then((snapshot)=> {
+            await get(child(dbRef, `usersData/${userArr[iter]}/entriestime/${keysArr[iter]}`)).then((snapshot)=> {
               dateArr.push(snapshot.val());
             });
             iter += 1;
         }
         for (const user of userArr) {
-            await get(child(dbRef, `users/${user}/ProfileName`)).then((snapshot)=> {
+            await get(child(dbRef, `usersData/${user}/profilename`)).then((snapshot)=> {
                 profileArr.push(snapshot.val());
               });
         }
         await get(child(dbRef, `Restaurants/${restaurant}/founder`)).then((snapshot)=> {
             if(snapshot.exists()) {
                 founderID = snapshot.val();
-                console.log("funder exists");
             }
         });
         if (founderID !== "") {
-            console.log("fouderID is not null");
-            await get(child(dbRef, `users/${founderID}/ProfileName`)).then((snapshot)=> {
+            await get(child(dbRef, `usersData/${founderID}/profilename`)).then((snapshot)=> {
                 if(snapshot.exists()) {
                     setFounder(snapshot.val());
-                    console.log("founder: " + snapshot.val());
                 }
             });
         }
@@ -72,10 +70,8 @@ function Results() {
     }
     useEffect(() => {
         async function getData() {
-            console.log("getting Data");
             await get(child(dbRef, `Restaurants/${restaurant}`)).then((snapshot)=> {
                 if(snapshot.exists()) {
-                    console.log("existing right here");
                     setRestName(snapshot.val().name);
                     setAddress(snapshot.val().address);
                     setRestHourSun(snapshot.val().hours.sunday);
@@ -120,13 +116,12 @@ function Results() {
             (
             <div>
                 <h2 className="sectionTitle">Reviews</h2>
-                {console.log(entries)}
                 {(Array.from(entries)).map((entry, index) => ( 
                 <div>
                 <div className="baseResults">
                     <div className="lineResults">
                         <label className="nameResults">{profilename[index]}</label>
-                        <label>{date[index]}</label>
+                        <label className="dateResults">{date[index]}</label>
                     </div>
                     <br></br><br></br>
                     <label>{entry}</label><br></br>

@@ -18,25 +18,21 @@ const Entries = () => {
     var restUpArr = [];
     var iter = 0;
     let num = 100;  //Gets the first 100 entries 
-    const que = query(ref(db, `users/${auth.currentUser.uid}/entries`), limitToLast(num));
+    const que = query(ref(db, `usersData/${auth.currentUser.uid}/entries`), limitToLast(num));
     await get(que).then((snapshot)=> {
-      console.log("child count: " + snapshot.size);
       snapshot.forEach(childSnapshot => {
-        console.log(childSnapshot.key);
         keysArr.push(childSnapshot.key);
         restUpArr.push(childSnapshot.val());
       });
     });
-    const que2 = query(ref(db, `users/${auth.currentUser.uid}/entriespost`), limitToLast(num));
+    const que2 = query(ref(db, `usersData/${auth.currentUser.uid}/entriespost`), limitToLast(num));
     await get(que2).then((snapshot)=> {
-      console.log("child count: " + snapshot.size);
       snapshot.forEach(childSnapshot => {
         postArr.push(childSnapshot.val());
       });
     });
-    const que3 = query(ref(db, `users/${auth.currentUser.uid}/entriestime`), limitToLast(num));
+    const que3 = query(ref(db, `usersData/${auth.currentUser.uid}/entriestime`), limitToLast(num));
     await get(que3).then((snapshot)=> {
-      console.log("child count: " + snapshot.size);
       snapshot.forEach(childSnapshot => {
         dateArr.push(childSnapshot.val());
       });
@@ -51,8 +47,6 @@ const Entries = () => {
     setPost(postArr.reverse());
     setDate(dateArr.reverse());
     setEntriesRest(restArr.reverse());
-    console.log("size: " + entries.length);
-    console.log(entries);
     setPrint(true);
 
   }
@@ -72,10 +66,6 @@ const Entries = () => {
       (
         <div>
           <h1>Recent Entries</h1>
-          {console.log("return print: " + entries)}
-          {console.log(post)}
-          {console.log(date)}
-          {console.log(entriesRest)}
           {(Array.from(entries)).map((item2, index) => ( 
             <div>
               <div className="base">
@@ -84,7 +74,7 @@ const Entries = () => {
                   <label className="date">{date[index]}</label>
                 </div>
                 <br></br><br></br>
-                <label>{post[index]}</label><br></br>
+                <label className="entriesPost">{post[index]}</label><br></br>
               </div>
               <br></br>
             </div>
