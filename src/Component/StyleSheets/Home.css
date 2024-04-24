@@ -51,7 +51,7 @@
 .about p {
   font-size: 18px;
   width: 85%;
-  text-align: center;
+  text-align: left;
 }
 
 .homePictures {
@@ -82,6 +82,17 @@
 
 .about h2 {
   margin: 0%;
+}
+
+.showRecent {
+  text-align: left;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  margin-left: 5%;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  font-size: 20px;
 }
 
 /*******************************************************************/

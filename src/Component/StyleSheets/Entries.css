@@ -1,0 +1,16 @@
+.base {
+    background-color: bisque;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2%;
+    padding-bottom: 7%;
+    border-radius: 10px;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+.line {
+    display: inline;
+}
+.name {
+    margin-right: 50%;
+}

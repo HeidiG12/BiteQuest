@@ -1,37 +1,17 @@
 import React, {useState } from "react";
 import "../StyleSheets/Review.css";
-import { get, set, child, ref, onValue, push, update} from "firebase/database";
-import {db, dbRef} from '../fireBaseConfig/OAuth'
-
-
-/*const [restaurantToReview, setRestaurantToReview] = React.useState([]);
-const [restaurantToReviewbool, setRestaurantToReviewbool] = React.useState(true);
-async function GetRestaurants() {
-    //const rest = get(child(dbRef, "Tags/"));
-    //console.log(rest[0]);
-    await get(child(dbRef, "Tags")).then((snapshot) => {
-        snapshot.forEach(child => {    
-            //console.log(child.key);
-            restaurantToReview.push(child.key);
-            //console.log(restaurantToReview);
-            //setRestaurantToReview([restaurantToReview])
-        });
-    });
-    //setRestaurantToReview([restaurantToReview])
-    setRestaurantToReviewbool(false);
-    setRestaurantToReview(restaurantToReview);
-}
-if (restaurantToReviewbool) {
-    GetRestaurants();
-    console.log(restaurantToReview);
-}
-*/
+import { get, set, child, ref, push, update} from "firebase/database";
+import {db, dbRef, auth} from '../fireBaseConfig/OAuth';
+import { Timestamp } from "firebase/firestore";
 
 const Review = () => {
     const [allchecked, setAllChecked] = React.useState([]);
     const [isOpenedFlavors, setIsOpenedFlavors] = React.useState(false);
     const [isOpenedCuisine, setIsOpenedCuisine] = React.useState(false);
     const [isOpenedRestrict, setIsOpenedRestrict] = React.useState(false);
+    const restrictions = ["Gluten Free", "Vegan", "Vegetarian"];
+    const cuisine = ["Korean", "Indian", "Japanese", "Chinese", "Cuban", "Caribbean", "Mediterranean", "Italian", "American"];
+    const flavors = ["Spicy", "Sweet", "Umami"];
     function handleChange(e) {
         if (e.target.checked) {
         setAllChecked([...allchecked, e.target.value]);
@@ -49,13 +29,18 @@ const Review = () => {
     function displayRestrict() {
         setIsOpenedRestrict(wasOpened => !wasOpened);
     }
+    function reset() {
+        setAllChecked([]);
+        setIsOpenedFlavors(false);
+        setIsOpenedCuisine(false);
+        setIsOpenedRestrict(false);
+    }
 
     const [description , setDescription] = useState("");
     const [restaurantInput, setRestInput] = useState("");
     const [submitted, setSubmitted] = useState(false)
     const [restDNE, setRestDNE] = useState(false);
     const [submitNew, setSubmitNew] = useState(false);
-    //for submit new rest in database 
     const [submitNewName, setSubmitNewName] = useState("");
     const [submitNewAddress, setSubmitNewAddress] = useState("");
     const [submitNewMonStart, setSubmitNewMonStart] = useState("");
@@ -87,32 +72,44 @@ const Review = () => {
     const [submitNewSunStartSuf, setSubmitNewSunStartSuf] = useState("AM");
     const [submitNewSunEndSuf, setSubmitNewSunEndSuf] = useState("AM");
 
-    //updates the tags
     async function handleSubmit(event) {
         event.preventDefault();
+        reset();
         setSubmitted(true);
         const updates = {};
         //for write description 
         await get(child(dbRef, `Restaurants/${restaurantInput.toUpperCase()}`)).then((snapshot)=>{
             console.log(restaurantInput);
             if (snapshot.exists()) {
-                const newPostKey = push(child(dbRef, `Restaurants/${restaurantInput.toUpperCase()}/post`)).key;
-                var path = ref(db, `Restaurants/${restaurantInput.toUpperCase()}/post`);
-                onValue(path, (snapshot)=> {
-                if (snapshot.exists()) {
-                    if (description !== "") {
-                        updates[`Restaurants/${restaurantInput.toUpperCase()}/post/${newPostKey}`] = description;
-                    }
-                    //Also later update it for user posts 
-                }
-                else {
-                    console.log("post folder not created");
-                    /*set(ref(db, `Restaurants/${restaurantInput.toUpperCase()}/post`), {
-                    one: description, 
-                    //username: name,
-                    //profile_picture : 
-                    });*/
-                }
+                get(child(dbRef, `Restaurants/${restaurantInput.toUpperCase()}/post`)).then((snapshot)=>{
+                    const newPostKey = push(child(dbRef, `Reviews`)).key;
+                    updates[`Restaurants/${restaurantInput.toUpperCase()}/post/${newPostKey}`] = description;
+                    //Updates review on users folder in database 
+                    updates[`users/${auth.currentUser.uid}/entries/${newPostKey}`] = restaurantInput.toUpperCase();
+                    updates[`users/${auth.currentUser.uid}/entriespost/${newPostKey}`] = description;
+                    updates[`Reviews/${newPostKey}`] = auth.currentUser.uid;
+                    //Add timestamp for Date 
+                    const time = Timestamp.now();
+                    console.log(`Date: ${time.toDate().toLocaleDateString()}`);
+                    updates[`users/${auth.currentUser.uid}/entriestime/${newPostKey}`] = time.toDate().toLocaleDateString();
+                    update(dbRef, updates);
+                });
+                allchecked.forEach((tag) => {
+                    const tagUpdates = {};
+                    get(child(dbRef, `Tags/${tag.toUpperCase()}/${restaurantInput.toUpperCase()}`)).then((snapshot)=>{
+                        if (snapshot.exists()) {
+                            var num = snapshot.val();
+                            console.log(tag + ": " + num);
+                            num += 1;
+                            tagUpdates[`Tags/${tag.toUpperCase()}/${restaurantInput.toUpperCase()}`] = num;
+                            update(dbRef, tagUpdates);
+                        }
+                        else {
+                            console.log(tag + " tag does not have restaurant so set default = 1");
+                            tagUpdates[`Tags/${tag.toUpperCase()}/${restaurantInput.toUpperCase()}`] = 1;
+                            update(dbRef, tagUpdates);
+                        } 
+                    });
                 });
             }
             else {
@@ -121,25 +118,6 @@ const Review = () => {
                 setSubmitted(false); 
             }
         });
-        //Updates the tags 
-        allchecked.forEach((tag) => {
-            var path = ref(db, `Tags/${tag.toUpperCase()}/${restaurantInput.toUpperCase()}`);
-            onValue(path, (snapshot)=> {
-                if (snapshot.exists()) {
-                    var num = snapshot.val();
-                    console.log(tag + ": " + num);
-                    num += 1;
-                    updates[`Tags/${tag.toUpperCase()}/${restaurantInput.toUpperCase()}`] = num;
-                }
-                else {
-                    console.log(tag + " tag does not have restaurant so set default = 1");
-                    set(ref(db, `Tags/${tag.toUpperCase()}/${restaurantInput.toUpperCase()}`), {
-                    });
-                    updates[`Tags/${tag.toUpperCase()}/${restaurantInput.toUpperCase()}`] = 1;
-                } 
-            });
-        });
-        update(dbRef, updates);
         setAllChecked([]);
     }
     function handleNewRestSub(e) {
@@ -148,7 +126,6 @@ const Review = () => {
     }
     function handleNewRestSubForm(event) {
         event.preventDefault();
-        //setSubmitNew(true);
         console.log("Monday: " + submitNewMonStart + submitNewMonStartSuf + " - " + submitNewMonEnd + submitNewMonEndSuf);
         console.log("Tuesday: " + submitNewTuesStart + submitNewTuesStartSuf + " - " + submitNewTuesEnd + submitNewTuesEndSuf);
         console.log("Wednesday: " + submitNewWedStart + submitNewWedStartSuf + " - " + submitNewWedEnd + submitNewWedEndSuf);
@@ -156,22 +133,36 @@ const Review = () => {
         console.log("Friday: " + submitNewFriStart + submitNewFriStartSuf + " - " + submitNewFriEnd + submitNewFriEndSuf);
         console.log("Saturday: " + submitNewSatStart + submitNewSatStartSuf + " - " + submitNewSatEnd + submitNewSatEndSuf);
         console.log("Sunday: " + submitNewSunStart + submitNewSunStartSuf + " - " + submitNewSunEnd + submitNewSunEndSuf);
-        set(ref(db, `Restaurants/${restaurantInput.toUpperCase()}`), {
+        set(ref(db, `Restaurants/${submitNewName.toUpperCase()}`), {
             name: submitNewName,
             address: submitNewAddress,
+            founder: auth.currentUser.uid,
         });
-        set(ref(db, `Restaurants/${restaurantInput.toUpperCase()}/hours`), {
+        set(ref(db, `Restaurants/${submitNewName.toUpperCase()}/hours`), {
             monday: `${submitNewMonStart+submitNewMonStartSuf}-${submitNewMonEnd+submitNewMonEndSuf}`,
+            tuesday: `${submitNewTuesStart+submitNewTuesStartSuf}-${submitNewTuesEnd+submitNewTuesEndSuf}`,
+            wednesday: `${submitNewWedStart+submitNewWedStartSuf}-${submitNewWedEnd+submitNewWedEndSuf}`,
+            thursday: `${submitNewThursStart+submitNewThursStartSuf}-${submitNewThursEnd+submitNewThursEndSuf}`,
+            friday: `${submitNewFriStart+submitNewFriStartSuf}-${submitNewFriEnd+submitNewFriEndSuf}`,
+            saturday: `${submitNewSatStart+submitNewMonStartSuf}-${submitNewMonEnd+submitNewSatEndSuf}`,
+            sunday: `${submitNewSunStart+submitNewSunStartSuf}-${submitNewSunEnd+submitNewSunEndSuf}`,
         });
+        setSubmitNew(false);
+    }
+    function makeAnother() {
+        setSubmitted(false);
+    }
+    function goBack() {
+        setRestDNE(false);
     }
     return (
         <div>
-        {console.log("Status: " + submitNew)}
         {submitted ? 
         (<form className="reviewForm"> 
             <div className="formDiv"> 
             <p>Thanks for submitting a review</p> 
             <p>Continue to embark on your BiteQuest</p>
+            <button className="reviewSubmit" onClick={makeAnother.bind(this)}>Make another review</button>
             </div>
         </form>) 
         : restDNE ? 
@@ -179,7 +170,8 @@ const Review = () => {
             <div className="formDiv"> 
             <p>The restuarant entered does not exist in the database</p> 
             <p>Verify the restaurant name entered is correct or submit a new restaurant request</p>
-            <button className="reviewSubmit" onClick={handleNewRestSub.bind(this)}>Submit a new restaurant</button>
+            <button className="buttons1" onClick={goBack.bind(this)}>Back</button>
+            <button className="buttons1" onClick={handleNewRestSub.bind(this)}>Submit a new restaurant</button>
             </div>
         </form>
         ) 
@@ -188,11 +180,11 @@ const Review = () => {
             <div className="formDiv"> 
             <p>Submit a new restaurant</p> 
             <label className="restaurantName">
-                Name: <input className="restInput" onChange={(e) => setSubmitNewName(e.target.value)}/> 
+                Name: <input required className="restInput" onChange={(e) => setSubmitNewName(e.target.value)}/> 
             </label> 
             <br></br>
             <label className="restaurantAddress">
-                Address: <input className="addressInput" onChange={(e) => setSubmitNewAddress(e.target.value)}/> 
+                Address: <input required className="addressInput" onChange={(e) => setSubmitNewAddress(e.target.value)}/> 
             </label>
             <br></br>
             <label className="hours">
@@ -200,98 +192,98 @@ const Review = () => {
             </label>
             <br></br>
             <label className="hours">
-                Monday: <input className="hoursInput" onChange={(e) => setSubmitNewMonStart(e.target.value)}/>
+                Monday: <input required className="hoursInput" onChange={(e) => setSubmitNewMonStart(e.target.value)}/>
             </label>
             <select value={submitNewMonStartSuf} onChange={(e) => setSubmitNewMonStartSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select>
             <label className="hours">
-                -<input className="hoursInput" onChange={(e) => setSubmitNewMonEnd(e.target.value)}/>
+                -<input required className="hoursInput" onChange={(e) => setSubmitNewMonEnd(e.target.value)}/>
             </label>
             <select value={submitNewMonEndSuf} onChange={(e) => setSubmitNewMonEndSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select> <br></br>
             <label className="hours">
-                Tuesday: <input className="hoursInput" onChange={(e) => setSubmitNewTuesStart(e.target.value)}/>
+                Tuesday: <input required className="hoursInput" onChange={(e) => setSubmitNewTuesStart(e.target.value)}/>
             </label>
             <select value={submitNewTuesStartSuf} onChange={(e) => setSubmitNewTuesStartSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select>
             <label className="hours">
-                -<input className="hoursInput" onChange={(e) => setSubmitNewTuesEnd(e.target.value)}/>
+                -<input required className="hoursInput" onChange={(e) => setSubmitNewTuesEnd(e.target.value)}/>
             </label>
             <select value={submitNewTuesEndSuf} onChange={(e) => setSubmitNewTuesEndSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select> <br></br>
             <label className="hours">
-                Wednesday: <input className="hoursInput" onChange={(e) => setSubmitNewWedStart(e.target.value)}/>
+                Wednesday: <input required className="hoursInput" onChange={(e) => setSubmitNewWedStart(e.target.value)}/>
             </label>
             <select value={submitNewWedStartSuf} onChange={(e) => setSubmitNewWedStartSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select>
             <label className="hours">
-                -<input className="hoursInput" onChange={(e) => setSubmitNewWedEnd(e.target.value)}/>
+                -<input required className="hoursInput" onChange={(e) => setSubmitNewWedEnd(e.target.value)}/>
             </label>
             <select value={submitNewWedEndSuf} onChange={(e) => setSubmitNewWedEndSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select> <br></br>
             <label className="hours">
-                Thursday: <input className="hoursInput" onChange={(e) => setSubmitNewThursStart(e.target.value)}/>
+                Thursday: <input required className="hoursInput" onChange={(e) => setSubmitNewThursStart(e.target.value)}/>
             </label>
             <select value={submitNewThursStartSuf} onChange={(e) => setSubmitNewThursStartSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select>
             <label className="hours">
-                -<input className="hoursInput" onChange={(e) => setSubmitNewThursEnd(e.target.value)}/>
+                -<input required className="hoursInput" onChange={(e) => setSubmitNewThursEnd(e.target.value)}/>
             </label>
             <select value={submitNewThursEndSuf} onChange={(e) => setSubmitNewThursEndSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select> <br></br>
             <label className="hours">
-                Friday: <input className="hoursInput" onChange={(e) => setSubmitNewFriStart(e.target.value)}/>
+                Friday: <input required className="hoursInput" onChange={(e) => setSubmitNewFriStart(e.target.value)}/>
             </label>
             <select value={submitNewFriStartSuf} onChange={(e) => setSubmitNewFriStartSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select>
             <label className="hours">
-                -<input className="hoursInput" onChange={(e) => setSubmitNewFriEnd(e.target.value)}/>
+                -<input required className="hoursInput" onChange={(e) => setSubmitNewFriEnd(e.target.value)}/>
             </label>
             <select value={submitNewFriEndSuf} onChange={(e) => setSubmitNewFriEndSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select> <br></br>
             <label className="hours">
-                Saturday: <input className="hoursInput" onChange={(e) => setSubmitNewSatStart(e.target.value)}/>
+                Saturday: <input required className="hoursInput" onChange={(e) => setSubmitNewSatStart(e.target.value)}/>
             </label>
             <select value={submitNewSatStartSuf} onChange={(e) => setSubmitNewSatStartSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select>
             <label className="hours">
-                -<input className="hoursInput" onChange={(e) => setSubmitNewSatEnd(e.target.value)}/>
+                -<input required className="hoursInput" onChange={(e) => setSubmitNewSatEnd(e.target.value)}/>
             </label>
             <select value={submitNewSatEndSuf} onChange={(e) => setSubmitNewSatEndSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select> <br></br>
             <label className="hours">
-                Sunday: <input className="hoursInput" onChange={(e) => setSubmitNewSunStart(e.target.value)}/>
+                Sunday: <input required className="hoursInput" onChange={(e) => setSubmitNewSunStart(e.target.value)}/>
             </label>
             <select value={submitNewSunStartSuf} onChange={(e) => setSubmitNewSunStartSuf(e.target.value)}>
                 <option value="AM">AM</option>
                 <option value="PM">PM</option>
             </select>
             <label className="hours">
-                -<input className="hoursInput" onChange={(e) => setSubmitNewSunEnd(e.target.value)}/>
+                -<input required className="hoursInput" onChange={(e) => setSubmitNewSunEnd(e.target.value)}/>
             </label>
             <select value={submitNewSunEndSuf} onChange={(e) => setSubmitNewSunEndSuf(e.target.value)}> 
                 <option value="AM">AM</option>
@@ -306,12 +298,12 @@ const Review = () => {
             <div className="formDiv">
                 <div className="mainInfo">
                     <label className="restaurantName">
-                        Pick a restaurant: <input className="restInput" onChange={(e) => setRestInput(e.target.value)}/>
+                        Restaurant Name: <input required className="restInput" onChange={(e) => setRestInput(e.target.value)}/>
                     </label>
                     <br></br><br></br>
                     <label className="descriptionLabel"> 
                         Describe your experience: 
-                        <textarea className="description"
+                        <textarea required className="description"
                             placeholder="How was your experience?"
                             name="postContent"
                             rows={10}
@@ -321,6 +313,7 @@ const Review = () => {
                     </label>
                 </div>
                 <br></br>
+                <label>Select some tags</label>
                 <div id="selectedReviewDiv" className="selectedReviewDiv">
                     {allchecked.map(item => (
                         <label className="selectedLabels">{item}</label>
@@ -331,37 +324,39 @@ const Review = () => {
                 <div className="TagButtons">
                     <input type="checkbox" id="flavorLabel" onChange={displayFlavors}></input>
                     <label className="flavorLabel" htmlFor="flavorLabel" value="Flavors">Flavors</label>
-                    <input type="checkbox" id="cuisineLabel" onChange={displayCuisine}></input>
-                    <label className="cuisineLabel" htmlFor="cuisineLabel" value="Cuisine">Cuisine</label>
                     <input type="checkbox" id="restrictLabel" onChange={displayRestrict}></input>
                     <label className="restrictLabel" htmlFor="restrictLabel" value="Restrict">Dietary Restrictions</label>
+                    <input type="checkbox" id="cuisineLabel" onChange={displayCuisine}></input>
+                    <label className="cuisineLabel" htmlFor="cuisineLabel" value="Cuisine">Cuisine</label>
                 </div>
     
                 <div className="review"> 
                     <div className="flavorsDiv" id ="flavorsDiv" style={{ display: isOpenedFlavors ? 'block' : 'none' }}>
-                        <input className="flavorLabel" type = "checkbox" onChange = {handleChange} id="Spicy" name = "boxes" value="Spicy"></input>
-                        <label className="flavorLabel" htmlFor="Spicy"> Spicy </label> 
-                        <input type = "checkbox" onChange = {handleChange} id="Sweet" name = "boxes" value="Sweet"></input>
-                        <label className="flavorLabel" htmlFor="Sweet"> Sweet </label>
-                        <input type = "checkbox" onChange = {handleChange} id="Sour" name = "boxes" value="Sour"></input> 
-                        <label className="flavorLabel" htmlFor="Sour"> Sour </label>
+                        {flavors.map(itemLabel => (
+                            <label>
+                            <input className="flavorLabel" type = "checkbox" onChange = {handleChange} id={itemLabel} name = "boxes" value={itemLabel}></input>
+                            <label className="flavorLabel" htmlFor={itemLabel}> {itemLabel} </label>
+                            </label>
+                        ))}
+                        <br></br>
+                    </div>
+                    <div id ="restrictDiv" style={{ display: isOpenedRestrict ? "block" : "none" }}>
+                        {restrictions.map(itemLabel => (
+                            <label>
+                            <input type = "checkbox" onChange = {handleChange} id={itemLabel} name = "boxes" value={itemLabel}></input>
+                            <label className="restrictLabel" htmlFor ={itemLabel}> {itemLabel} </label> 
+                            </label>
+                        ))}
                         <br></br>
                     </div>
                     <div className="cuisineDiv" id ="cuisineDiv" style={{ display: isOpenedCuisine ? "block" : "none" }}>
-                        <input type = "checkbox" onChange = {handleChange} id="Korean" name = "boxes" value="Korean"></input>
-                        <label className="cuisineLabel" htmlFor ="Korean"> Korean </label>  
-                        <input type = "checkbox" onChange = {handleChange} id="Indian" name = "boxes" value="Indian"></input>
-                        <label className="cuisineLabel" htmlFor ="Indian"> Indian </label>
-                        <input type = "checkbox" onChange = {handleChange} id="Country" name = "boxes" value="Country"></input>
-                        <label className="cuisineLabel" htmlFor ="Country"> Country </label><br></br>
-                    </div>
-                    <div id ="restrictDiv" style={{ display: isOpenedRestrict ? "block" : "none" }}>
-                        <input type = "checkbox" onChange = {handleChange} id="Gluten Free" name = "boxes" value="Gluten Free"></input>
-                        <label className="restrictLabel" htmlFor ="Gluten Free"> Gluten Free </label>  
-                        <input type = "checkbox" onChange = {handleChange} id="Vegan" name = "boxes" value="Vegan"></input>
-                        <label className="restrictLabel" htmlFor ="Vegan"> Vegan </label>
-                        <input type = "checkbox" onChange = {handleChange} id="Vegetarian" name = "boxes" value="Vegetarian"></input>
-                        <label className="restrictLabel" htmlFor ="Vegetarian"> Vegetarian </label><br></br>
+                        {cuisine.map(itemLabel => (
+                            <label>
+                            <input type = "checkbox" onChange = {handleChange} id={itemLabel} name = "boxes" value={itemLabel}></input>
+                            <label className="cuisineLabel" htmlFor ={itemLabel}> {itemLabel} </label> 
+                            </label>
+                        ))}
+                        <br></br>
                     </div>
 
                 </div>

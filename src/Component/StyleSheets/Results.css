@@ -1,0 +1,24 @@
+.baseResults {
+    background-color: bisque;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2%;
+    padding-bottom: 5%;
+    border-radius: 10px;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+.lineResults {
+    display: inline;
+}
+.nameResults {
+    margin-right: 70%;
+}
+.founder {
+    margin-left: 80%
+}
+.sectionTitle {
+    text-align:center;
+    color: black;
+    font-family: "Palanquin", sans-serif;
+}
