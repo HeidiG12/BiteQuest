@@ -1,15 +1,26 @@
+
+
 import "../StyleSheets/Profile.css";
 import React, { useEffect, useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
+import { useAuth } from '../fireBaseConfig/AuthContext.js';
 import { auth, imageDb } from '../fireBaseConfig/OAuth.js';
 import Cookies from 'js-cookie'; //if error, install with this-> npm install js-cookie --legacy-peer-deps
 import googleLogo from "../imgs/GoogleLogo.png";
 import profile from "../imgs/profile.png";
-import { ref, uploadBytes, deleteObject, getDownloadURL } from 'firebase/storage';
+import img from "../imgs/profleAv.png";
 import {v4} from 'uuid';
+import { getDatabase, ref, get,set } from "firebase/database";
+
 
 
 const Profile = () => {
+  const {currentUser} = useAuth();
+  const db = getDatabase();
+
+  const [profileName, setProfileName] = useState('');
+  const [profileDescription, setProfileDescription] = useState('');
+
 
   const [userName, setUserName] = useState('');
   const [formData, setFormData] = useState({
@@ -18,42 +29,96 @@ const Profile = () => {
       email: '',
       password: '',
   })
-  const [editProfile, setEditProfile] = useState(false);
-  const [img, setImg] = useState('https://firebasestorage.googleapis.com/v0/b/bitequest-68fcf.appspot.com/o/files%2Fprofile.png?alt=media&token=56a1d002-8acf-4b35-8e83-45275e8fdabb')
-  const [hasProfilePic, setHasProfilePic] = useState(false);
-  
-  
+  // At the top of your file or in a separate constants file
+const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a never-ending journey fueled by a profound passion for exploring the vast world of flavors, textures, and aromas. My days are marked by the anticipation of discovering new dishes and the stories behind them, whether it's a hidden street food stall offering the perfect bite of spicy, tangy chaat, or a high-end restaurant that transforms familiar ingredients into works of edible art. I find joy in the details—the history of a centuries-old recipe, the careful balance of spices in a regional dish, or the innovative techniques chefs use to push the boundaries of what we consider food. Sharing these experiences, whether through vivid descriptions, tips on where to find the best eats, or discussions about the cultural significance of food, is just as thrilling as the quest itself. For me, food is more than sustenance; it's a language that communicates love, tradition, innovation, and community."
 
-  const handleChangePhotoClick = async() =>{
-    // setImg('https://firebasestorage.googleapis.com/v0/b/bitequest-68fcf.appspot.com/o/files%2FprofilePic?alt=media&token=2171d7ef-f93d-455d-b4ee-f91a5cd4d0af')
-    // if(hasProfilePic){
-    //   alert("Delete your current photo first (press delete)")
-    // }else{
-      setHasProfilePic(true);
-      const imgRef = ref(imageDb, `files/profilePic`)
-      uploadBytes(imgRef,img)
-      var url = await getDownloadURL(imgRef);
-      
-      setImg(url);
-    //   alert("image set")
-    // }
-  }
-
-  const handleDelete = async () => {
-    const imgref = ref(imageDb, 'files/profilePic');
-    if(!hasProfilePic){
-      alert("No image available to delete");
-    }else{
-    try {
-      // Delete the file
-      await deleteObject(imgref);
-      setHasProfilePic(false);
-      alert('File deleted successfully');
-    } catch (error) {
-      alert('Error during file deletion:', error);
+  useEffect(() => {
+    if (currentUser) {
+      const userRef = ref(db, 'users/' + currentUser.uid);
+      get(userRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          setProfileName(data.ProfileName || currentUser.uid);  // Use existing or UID if no profile name
+          setProfileDescription(data.ProfileDescription || DEFAULT_PROFILE_DESCRIPTION);  // Default description if empty
+        } else {
+          // Set defaults if no data exists
+          setProfileName(currentUser.displayName);  
+          setProfileDescription(DEFAULT_PROFILE_DESCRIPTION);
+        }
+      }).catch((error) => {
+        console.error("Error fetching user data: ", error);
+      });
     }
-  }
-  }
+  }, [currentUser, db]);
+
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setEditProfile(false); // Updates the state to 'false' when the button is clicked
+    writeData(); // Call writeData to save the user input to the database
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    if (name === 'profileName') {
+      setProfileName(value);
+    } else if (name === 'profileDescription') {
+      setProfileDescription(value);
+    }
+  };
+  const [editProfile, setEditProfile] = useState(false);
+  // const [img, setImg] = useState('')
+  const [hasProfilePic, setHasProfilePic] = useState(false);
+
+  const writeData = () => {
+    if (currentUser) {
+      set(ref(db, 'users/' + currentUser.uid), {
+        ProfileName: profileName,
+        ProfileDescription: profileDescription
+      })
+      .then(() => {
+        console.log("Data saved successfully!");
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+      });
+    } else {
+      console.log("No user logged in");
+    }
+  };
+  
+  
+
+  // const handleChangePhotoClick = async() =>{
+  //   // setImg('https://firebasestorage.googleapis.com/v0/b/bitequest-68fcf.appspot.com/o/files%2FprofilePic?alt=media&token=2171d7ef-f93d-455d-b4ee-f91a5cd4d0af')
+  //   // if(hasProfilePic){
+  //   //   alert("Delete your current photo first (press delete)")
+  //   // }else{
+  //     setHasProfilePic(true);
+  //     const imgRef = ref(imageDb, `files/profilePic`)
+  //     uploadBytes(imgRef,img)
+  //     var url = await getDownloadURL(imgRef);
+      
+  //     setImg(url);
+  //   //   alert("image set")
+  //   // }
+  // }
+
+  // const handleDelete = async () => {
+  //   const imgref = ref(imageDb, 'files/profilePic');
+  //   if(!hasProfilePic){
+  //     alert("No image available to delete");
+  //   }else{
+  //   try {
+  //     // Delete the file
+  //     await deleteObject(imgref);
+  //     setHasProfilePic(false);
+  //     alert('File deleted successfully');
+  //   } catch (error) {
+  //     alert('Error during file deletion:', error);
+  //   }
+  // }
+  // }
 
 
 
@@ -293,8 +358,9 @@ const Profile = () => {
     
       <div class="flex-container">
         <div class="flex-item">
-          <img className = "profilePic" src = {img} alt = "profile picture"/>
-          <h1 className = 'profileName'>{formData.name}</h1>
+        
+          <img className = "profilePic" src = {img} alt = "profile picture" style={{ border: '4px solid rgb(255, 209, 122)', borderRadius: '50%' }}/>
+          {/* <h1 className = 'profileName'>{profileName}</h1> */}
           <h1 className = 'profileUserName'>{userName}</h1>
           <button className = 'standardButton' onClick={handleEditProfileClick}> Edit Profile </button>
         </div>
@@ -306,8 +372,9 @@ const Profile = () => {
           <div class="flex-item headingBig" style={{ width: '90%' }}>0 Following</div>          
         </div>
         <h1 className = 'profileName' style={{ 'text-align': 'left', 'margin-left': '45px','margin-top' :'30px' }}>Profile Bio</h1>
-        <h1 className = 'paragraph' style={{ 'text-align': 'left', 'margin-left': '9px','margin-top' :'10px' }}>As a self-proclaimed foodie, I embark on a never-ending journey fueled by a profound passion for exploring the vast world of flavors, textures, and aromas. My days are marked by the anticipation of discovering new dishes and the stories behind them, whether it's a hidden street food stall offering the perfect bite of spicy, tangy chaat, or a high-end restaurant that transforms familiar ingredients into works of edible art. I find joy in the details—the history of a centuries-old recipe, the careful balance of spices in a regional dish, or the innovative techniques chefs use to push the boundaries of what we consider food. Sharing these experiences, whether through vivid descriptions, tips on where to find the best eats, or discussions about the cultural significance of food, is just as thrilling as the quest itself. For me, food is more than sustenance; it's a language that communicates love, tradition, innovation, and community.</h1>
+        <h1 className = 'paragraph' style={{ 'text-align': 'left', 'margin-left': '9px','margin-top' :'10px' }}>{profileDescription}</h1>
         </div>
+        
       </div>
       <button className = 'standardButton' onClick={handleLogout}>Logout</button>
 
@@ -319,7 +386,7 @@ const Profile = () => {
       <div class = 'flex-container'>
           <div class = 'flex-item'>
             <img className = "profilePic" src = {img} alt = "profile picture"/>
-            
+{/*             
             <h1 className = 'profileName'>{formData.name}</h1>
             <h1 className = 'profileUserName'>{userName}</h1>
             <input type = 'file' style={{ display: 'none' }} class = 'standardButton' onChange={(e)=>setImg(e.target.files[0])}/>
@@ -336,30 +403,22 @@ const Profile = () => {
                 Change Photo
               </label>
 
-              <button class = 'standardButton' onClick = {handleDelete}>delete</button>
+              <button class = 'standardButton' onClick = {handleDelete}>delete</button> */}
 
 
           </div>
 
           <div className = 'flex-item' style={{ width: '90%' }}>
             
-            
+          <form onSubmit={handleSubmit}>
             <div className="inputGroup editInputBoxSpacing" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <label htmlFor="profileName" className="paragraph editInputBoxSpacing" style={{ fontWeight: '500' }}>
                 Profile Name
               </label>
               <input
-                id="profileName"
-                className="inputBoxSignin"
-                style={{ border: '1px solid black', borderRadius: '5px', width: '90%' }}
-              />
-            </div>
-
-            <div className="inputGroup" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-              <label htmlFor="profileName" className="paragraph editInputBoxSpacing" style={{ fontWeight: '500' }}>
-                Password
-              </label>
-              <input
+                name="profileName"
+                value={profileName}
+                onChange={handleChange}
                 id="profileName"
                 className="inputBoxSignin"
                 style={{ border: '1px solid black', borderRadius: '5px', width: '90%' }}
@@ -371,15 +430,20 @@ const Profile = () => {
                 Profile Description
               </label>
               <textarea
-                id="profileName"
+                name="profileDescription"
+                value={profileDescription}
+                onChange={handleChange}
                 className="inputBoxSignin"
                 style={{ border: '1px solid black', borderRadius: '5px', width: '90%','height': '100%', 'padding-bottom':'100px' }}
               />
               <button 
-              onClick = {handleSaveProfileClick}
+              type="submit"
+              // onClick = {handleSaveProfileClick}
               class = 'saveButton'
               > Save </button>
+              
             </div>
+            </form>
           </div>
           
       </div>

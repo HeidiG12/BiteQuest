@@ -22,12 +22,17 @@ import Tenders from './Component/Pages/Tenders';
 import Albert from './Component/Pages/Albert';
 import Alberta from './Component/Pages/Alberta';
 import Gator from './Component/Pages/Gator';
+// /Users/tina/Desktop/BiteQuest/src/Component/fireBaseConfig/AuthContext.js
+
+
+import { AuthProvider } from "./Component/fireBaseConfig/AuthContext.js";
 
 const clientId = "577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com"
 //Client Secret: 577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com 
 
 
 function App() {
+  
   useEffect(()=>{
     function start()  {
       gapi.client.init({
@@ -39,6 +44,7 @@ function App() {
   });
   
   return (
+    <AuthProvider>
     <div className="App">
       <Router>
         <Navbar/>
@@ -63,6 +69,7 @@ function App() {
         </Routes>
       </Router>
     </div>
+    </AuthProvider>
   );
 }
 export default App;
