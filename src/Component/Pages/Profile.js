@@ -42,6 +42,21 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
           setProfileDescription(data.ProfileDescription || DEFAULT_PROFILE_DESCRIPTION);  // Default description if empty
         } else {
           // Set defaults if no data exists
+          if (currentUser) {
+            set(ref(db, 'users/' + currentUser.uid), {
+              ProfileName: profileName,
+              ProfileDescription: profileDescription,
+              Email: currentUser.email
+            })
+            .then(() => {
+              console.log("Data saved successfully!");
+            })
+            .catch((error) => {
+              console.error("Error writing document: ", error);
+            });
+          } else {
+            console.log("No user logged in");
+          }
           setProfileName(currentUser.displayName);  
           setProfileDescription(DEFAULT_PROFILE_DESCRIPTION);
         }
@@ -344,21 +359,23 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
         
           <img className = "profilePic" src = {img} alt = "profile picture" style={{ border: '4px solid rgb(255, 209, 122)', borderRadius: '50%' }}/>
           {/* <h1 className = 'profileName'>{profileName}</h1> */}
-          <h1 className = 'profileUserName'>{userName}</h1>
+          {/* <h1 className = 'profileUserName'>{userName}</h1> */}
+          <h1 className = 'profileUserName'>{profileName}</h1>
           <button className = 'standardButton' onClick={handleEditProfileClick}> Edit Profile </button>
         </div>
 
         <div class = "flex-item" style={{ width: '90%','padding-top':'10px'}}>
           <div className = 'flex-container'>
-          <div class="flex-item headingBig" style={{ width: '90%' }}>0 Reviews</div>
-          <div class="flex-item headingBig" style={{ width: '90%' }}>{followingCount} Following</div>           
+          <div class="flex-item headingBig" style={{ width: '40%' }}>0 Reviews</div>
+          <div class="flex-item headingBig" style={{ width: '40%' }}>{followingCount} Following</div>
+          <button className = 'standardButton flex-item headingBig'style={{'margin-right':'30px' }} onClick={handleLogout}>Logout</button>           
         </div>
-        <h1 className = 'profileName' style={{ 'text-align': 'left', 'margin-left': '45px','margin-top' :'30px' }}>Profile Bio</h1>
-        <h1 className = 'paragraph' style={{ 'text-align': 'left', 'margin-left': '9px','margin-top' :'10px' }}>{profileDescription}</h1>
+        <h1 className = 'profileName' style={{ 'text-align': 'left', 'margin-left': '75px','margin-top' :'30px' }}>Profile Bio</h1>
+        <h1 className = 'paragraph' style={{ 'text-align': 'left', 'margin-left': '38px','margin-top' :'10px' }}>{profileDescription}</h1>
         </div>
         
       </div>
-      <button className = 'standardButton' onClick={handleLogout}>Logout</button>
+      {/* <button className = 'standardButton' onClick={handleLogout}>Logout</button> */}
 
       </div>
     )}
@@ -367,7 +384,7 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
     <div class = 'editPageStruct'>
       <div class = 'flex-container'>
           <div class = 'flex-item'>
-            <img className = "profilePic" src = {img} alt = "profile picture"/>
+            <img className = "profilePic" src = {img} alt = "profile picture"style={{ border: '4px solid rgb(255, 209, 122)', borderRadius: '50%' }}/>
 {/*             
             <h1 className = 'profileName'>{formData.name}</h1>
             <h1 className = 'profileUserName'>{userName}</h1>
