@@ -1,3 +1,37 @@
+.baseResults {
+    background-color: bisque;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2%;
+    padding-bottom: 5%;
+    border-radius: 10px;
+    margin-left: 25%;
+    margin-right: 25%;
+    font-family: "Alike", sans-serif;
+    font-size: large;
+    word-wrap: break-word;
+}
+.lineResults {
+    display: inline;
+}
+.nameResults {
+    float: left;
+}
+.dateResults {
+    float: right;
+}
+.founder {
+    margin-right: 10%; 
+    float: right;
+    font-family: "Alike", sans-serif;
+
+}
+.sectionTitle {
+    text-align:center;
+    color: black;
+    font-family: "Palanquin", sans-serif;
+}
+
 h1 {
   text-align: center;
   color: black;

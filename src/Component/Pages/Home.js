@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "../StyleSheets/Home.css";
 import { Link } from "react-router-dom";
 import pic1 from "../imgs/harrys.png";
@@ -9,8 +9,48 @@ import pic5 from "../imgs/cryBaby.jpeg";
 import pic6 from "../imgs/bolay.png";
 import pic7 from "../imgs/paris.jpg";
 import pic8 from "../imgs/apa.png";
+import { get, ref, query, limitToLast, child} from "firebase/database";
+import {db, dbRef} from '../fireBaseConfig/OAuth';
 
 const Home = () => {
+  const [reviews, setReviews] = useState([]);
+  const [rest, setRest] = useState([]);
+  const [once, setOnce] = useState(false);
+  async function retrieveRecent(){
+  var keysArr = [];
+  var userArr = [];
+  var postArr = [];
+  var restArr = [];
+  var restUpArr = [];
+  let num = 4;
+  const que = query(ref(db, `Reviews`), limitToLast(num));
+  await get(que).then((snapshot)=> {
+    snapshot.forEach(childSnapshot => {
+      console.log(childSnapshot.key);
+      keysArr.push(childSnapshot.key);
+      userArr.push(childSnapshot.val());
+    });
+  });
+  let iter = 0;
+  for (const user of userArr) {
+    await get(child(dbRef, `usersData/${user}/entriespost/${keysArr[iter]}`)).then((snapshot)=> {
+      postArr.push(snapshot.val());
+    });
+    await get(child(dbRef, `usersData/${user}/entries/${keysArr[iter]}`)).then((snapshot)=> {
+      restUpArr.push(snapshot.val());
+    });
+    await get(child(dbRef, `Restaurants/${restUpArr[iter]}`)).then((snapshot)=> {
+      restArr.push(snapshot.val().name);
+    }); 
+    iter += 1;
+  }
+  setReviews(postArr.reverse());
+  setRest(restArr.reverse());
+  setOnce(true);
+  } 
+  if (!once) {
+    retrieveRecent();
+  }
   return (
     <div className="home">
       <div className="header">
@@ -177,7 +217,35 @@ const Home = () => {
 
       <div className="about">
         <h2>Recent Quests</h2>
-        <p>need to write code to have recent reviews show up here</p>
+        {once ? 
+        (
+          <div className="recent">
+            {(Array.from(reviews)).map((post, index) => ( 
+              <div className="showRecent">
+                <Link
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+                to={`/results/${rest[index].toUpperCase()}`}
+                id={rest[index]}
+                className="homeResults"
+              >
+              <button className="buttonEditRecent">"{post}"
+              </button>
+              <label className="cap">{rest[index]}</label>
+              </Link>
+              </div>
+          ))
+        }
+          </div>
+        )
+        :
+        (
+        <p>Loading...</p>)
+        }
       </div>
     </div>
   );

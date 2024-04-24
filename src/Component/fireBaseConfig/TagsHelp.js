@@ -33,7 +33,7 @@ function myDisplay(x) {
         x.style.display = "none";
     }
 }
-async function getData(arrFinal) {    //CHANGE THIS LATER TO JUST PRINTING NOT CALLING ON DATABASE 
+async function getData(arrFinal) {   
     var testing = [];
     var results = document.getElementById("results");
     if (results) {

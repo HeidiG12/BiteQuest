@@ -22,6 +22,7 @@
 }
 .hoursInput {
     width: 20%;
+    font-family: "Alike", sans-serif;
 }
 .restInput {
     width: 77.5%;
@@ -30,8 +31,13 @@
     font-family: "Alike", sans-serif;
     font-size: large;
 }
+.restInputNew {
+    width: 77.5%;
+    font-family: "Alike", sans-serif;
+}
 .addressInput {
     width: 77.5%;
+    font-family: "Alike", sans-serif;
 }
 .reviewSubmit {
     text-align: center;
@@ -58,7 +64,6 @@
     padding-top: 1%;
     padding-bottom: 1%;
     border-radius: 10px;
-    display: block;
 }
 .selectedReviewDiv {
     border: 1px solid lightgrey;
@@ -69,4 +74,15 @@
     width: auto;
     text-align: center;
     align-items: center;
+}
+.buttons1 {
+    text-align: center;
+    background-color: f2f2f2;
+    border-radius: 5px;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-left: 13%;
+    margin-right: 13%
 }
