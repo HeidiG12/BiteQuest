@@ -25,24 +25,6 @@ function Navbar() {
     color:'red'
   });
 
-
-
-
-  const handleSearch = (query) => {
-    // if (!query.trim()) {
-    //   setSearchResults(items);
-    //   return;
-    // }
-    // const filteredItems = items.filter(item =>
-    //   item.toLowerCase().includes(query.toLowerCase())
-    // );
-    // setSearchResults(filteredItems);
-  };
-  const magnifyingGlassSVG = (
-    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
-      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.03.062.058.095.083l.007.006.002.002a.977.977 0 0 0 .128.115l4.516 4.517a.5.5 0 0 0 .708-.708l-4.517-4.516a.977.977 0 0 0-.115-.128l-.002-.002-.006-.007a.977.977 0 0 0-.083-.094v-.001zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-    </svg>
-  );
   const profileSVG = (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
       <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-2 3-6 3s-6-2-6-3c0-1 2-3 6-3s6 2 6 3zm-1-.004c-.29-.997-1.826-2.996-5-2.996s-4.71 2-5 2.996C4.29 12.999 5.826 11 9 11s4.71 2 5 2.996z"/>
@@ -65,29 +47,6 @@ function Navbar() {
         </div>
 
       {/* second column */}
-      <div style={{ width: '44%' }}>
-        <form onSubmit={handleSearch} style={{ display: 'flex', alignItems: 'center', paddingTop: '20px' }}>
-          <input
-             type="text"
-              placeholder="Search for somewhere..."
-              style={{
-                flexGrow: 1,
-                padding: '5px 25px', // Adjust padding as needed
-                fontSize: '15px',
-                borderRadius: '10px', // Makes it rounded
-                border: '1px solid orange', // Example border color
-                backgroundColor: 'white', // Orange background
-                color: 'black', // Text color
-                marginRight: '0px', // Add space between input and button                
-                }}
-              />
-            <button type="submit" style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}>
-                {magnifyingGlassSVG}
-            </button>
-          </form>
-
-  
-      </div>
         <div style={{ width: '33%', display: 'flex', justifyContent: 'flex-end','padding-top':'15px','padding-right':'60px'}}> 
           <Link to="/profile" onClick={() => handleItemClick('profile')}>
             <img src={profileIcon} alt="logo" style={{ width: '45px' }}/>
@@ -97,16 +56,16 @@ function Navbar() {
 
 
       <div style={{ display: 'flex', 'padding-left':'100px','padding-right':'100px' }}> {/* Second row */}
-        <div style={{ width: '25%' }}>
+        <div style={{ width: '20%' }}>
           <Link to="/entries" className="nav-link">Entries</Link>
         </div>
-        <div style={{ width: '25%' }}>
+        <div style={{ width: '20%' }}>
           <Link to="/friends" className="nav-link">Friends</Link>
         </div>
-        <div style={{ width: '25%' }}>
+        <div style={{ width: '20%' }}>
           <Link to="/review" className="nav-link">Make a Review</Link>
         </div>
-        <div style={{ width: '25%' }}>
+        <div style={{ width: '20%' }}>
           <Link to="/search" className="nav-link">Search</Link>
         </div>
       </div>

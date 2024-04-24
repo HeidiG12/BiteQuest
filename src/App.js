@@ -57,14 +57,7 @@ function App() {
           <Route path="/search" element={<Tags/>}></Route>
           <Route path="/results/:restaurant" element={<Results/>}></Route>
           <Route path="/:restaurant" element={<Home/>}></Route>
-          <Route path="/friends/Joyin" element={<Joyin/>}></Route>
-          <Route path="/friends/Tina" element={<Tina/>}></Route>
-          <Route path="/friends/Heidi" element={<Heidi/>}></Route>
-          <Route path="/friends/Jess" element={<Jess/>}></Route>
-          <Route path="/friends/Tenders" element={<Tenders/>}></Route>
-          <Route path="/friends/Albert" element={<Albert/>}></Route>
-          <Route path="/friends/Alberta" element={<Alberta/>}></Route>
-          <Route path="/friends/Gator" element={<Gator/>}></Route>
+          <Route path="/friends/:name" element={<Joyin />}></Route>
 
         </Routes>
       </Router>

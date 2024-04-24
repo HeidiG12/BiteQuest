@@ -135,13 +135,32 @@
   background: none;
 }
 
+.fhomePictures {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  margin-bottom: 1rem;
+  /* justify-content: center; */
+
+}
+
+.fpic {
+  width: 24%;
+  padding: 6px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  border-radius: 10px;
+  border: none;
+  background: none;
+}
+
 .buttonEdit {
   border: none;
   background: none;
   cursor: pointer;
 }
 
-.pic:hover {
+.fpic:hover {
   background-color: lightsalmon;
   border-radius: 10px;
 }
@@ -162,4 +181,9 @@
   background-color: transparent;
   font-size: large;
   font-family: "Alike", sans-serif;
+}
+
+.headingdiv {
+  display: flex;
+  align-items: center;
 }

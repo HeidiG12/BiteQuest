@@ -86,41 +86,6 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
       console.log("No user logged in");
     }
   };
-  
-  
-
-  // const handleChangePhotoClick = async() =>{
-  //   // setImg('https://firebasestorage.googleapis.com/v0/b/bitequest-68fcf.appspot.com/o/files%2FprofilePic?alt=media&token=2171d7ef-f93d-455d-b4ee-f91a5cd4d0af')
-  //   // if(hasProfilePic){
-  //   //   alert("Delete your current photo first (press delete)")
-  //   // }else{
-  //     setHasProfilePic(true);
-  //     const imgRef = ref(imageDb, `files/profilePic`)
-  //     uploadBytes(imgRef,img)
-  //     var url = await getDownloadURL(imgRef);
-      
-  //     setImg(url);
-  //   //   alert("image set")
-  //   // }
-  // }
-
-  // const handleDelete = async () => {
-  //   const imgref = ref(imageDb, 'files/profilePic');
-  //   if(!hasProfilePic){
-  //     alert("No image available to delete");
-  //   }else{
-  //   try {
-  //     // Delete the file
-  //     await deleteObject(imgref);
-  //     setHasProfilePic(false);
-  //     alert('File deleted successfully');
-  //   } catch (error) {
-  //     alert('Error during file deletion:', error);
-  //   }
-  // }
-  // }
-
-
 
   const handleEditProfileClick = () => {
 
@@ -261,6 +226,24 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
     // setUserName(formData.userName)
   };
 
+    // New state to hold the following count
+    const [followingCount, setFollowingCount] = useState(0);
+
+    // Function to fetch friends data from local storage
+    const getFriendsData = () => {
+      const storedFriendsData = localStorage.getItem('friendsData');
+      return storedFriendsData ? JSON.parse(storedFriendsData) : [];
+    };
+  
+    // useEffect hook to update following count
+    useEffect(() => {
+      const friendsData = getFriendsData();
+      const friendsCount = friendsData.reduce((count, friend) => {
+        return friend.follow ? count + 1 : count;
+      }, 0);
+      setFollowingCount(friendsCount);
+    }, []);
+
 
   return (
     
@@ -368,8 +351,7 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
         <div class = "flex-item" style={{ width: '90%','padding-top':'10px'}}>
           <div className = 'flex-container'>
           <div class="flex-item headingBig" style={{ width: '90%' }}>0 Reviews</div>
-          <div class="flex-item headingBig" style={{ width: '90%' }}>0 Friends</div>
-          <div class="flex-item headingBig" style={{ width: '90%' }}>0 Following</div>          
+          <div class="flex-item headingBig" style={{ width: '90%' }}>{followingCount} Following</div>           
         </div>
         <h1 className = 'profileName' style={{ 'text-align': 'left', 'margin-left': '45px','margin-top' :'30px' }}>Profile Bio</h1>
         <h1 className = 'paragraph' style={{ 'text-align': 'left', 'margin-left': '9px','margin-top' :'10px' }}>{profileDescription}</h1>
