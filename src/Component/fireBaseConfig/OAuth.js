@@ -1,14 +1,11 @@
 //THIS FILE EXPORTS THE AUTH THAT ALLOWS YOU TO WRITE TO BACKEND, THIS FILE IS LIKE THE KEY TO THE BACKEND AND USER DATA.
 
-
-
 // Import the necessary Firebase modules
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'; // IF ERROR WITH FIREBASE, USE -> npm install firebase  --legacy-peer-deps
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref } from "firebase/database"; // Import if you're using Firebase Realtime Database
 import { getStorage } from 'firebase/storage';
-
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
