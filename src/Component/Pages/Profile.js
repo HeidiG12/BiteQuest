@@ -1,3 +1,5 @@
+
+
 import "../StyleSheets/Profile.css";
 import React, { useEffect, useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
@@ -10,7 +12,8 @@ import img from "../imgs/profleAv.png";
 import {v4} from 'uuid';
 import { getDatabase, ref, onValue,get,set } from "firebase/database";
 
-// Main profile component
+
+
 const Profile = () => {
   const {currentUser} = useAuth();
   const db = getDatabase();
@@ -18,6 +21,8 @@ const Profile = () => {
   const [profileName, setProfileName] = useState('');
   const [profileDescription, setProfileDescription] = useState('');
   const [numFollowing, setNumFollowing] = useState(0);
+
+
   const [userName, setUserName] = useState('');
   const [formData, setFormData] = useState({
       name: '',
@@ -25,61 +30,104 @@ const Profile = () => {
       email: '',
       password: '',
   })
-
   // At the top of your file or in a separate constants file
-  const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a never-ending journey fueled by a profound passion for exploring the vast world of flavors, textures, and aromas. My days are marked by the anticipation of discovering new dishes and the stories behind them, whether it's a hidden street food stall offering the perfect bite of spicy, tangy chaat, or a high-end restaurant that transforms familiar ingredients into works of edible art. I find joy in the details—the history of a centuries-old recipe, the careful balance of spices in a regional dish, or the innovative techniques chefs use to push the boundaries of what we consider food. Sharing these experiences, whether through vivid descriptions, tips on where to find the best eats, or discussions about the cultural significance of food, is just as thrilling as the quest itself. For me, food is more than sustenance; it's a language that communicates love, tradition, innovation, and community."
+const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a never-ending journey fueled by a profound passion for exploring the vast world of flavors, textures, and aromas. My days are marked by the anticipation of discovering new dishes and the stories behind them, whether it's a hidden street food stall offering the perfect bite of spicy, tangy chaat, or a high-end restaurant that transforms familiar ingredients into works of edible art. I find joy in the details—the history of a centuries-old recipe, the careful balance of spices in a regional dish, or the innovative techniques chefs use to push the boundaries of what we consider food. Sharing these experiences, whether through vivid descriptions, tips on where to find the best eats, or discussions about the cultural significance of food, is just as thrilling as the quest itself. For me, food is more than sustenance; it's a language that communicates love, tradition, innovation, and community."
+useEffect(() => {
+  if (currentUser) {
+    const userRef = ref(db, 'users/' + currentUser.uid);
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
 
-  // Load user data from Firebase Realtime Database
-  useEffect(() => {
-    if (currentUser) {
-      const userRef = ref(db, 'users/' + currentUser.uid);
-      get(userRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.val();
-
-          const unsubscribe = onValue(userRef, (snapshot) => {
-            if (snapshot.exists()) {
-                setProfile(snapshot.val());
-            } else {
-                setProfile(null);
-            }
+        const unsubscribe = onValue(userRef, (snapshot) => {
+          if (snapshot.exists()) {
+            setProfile(snapshot.val());
+          } else {
+            setProfile(null);
+          }
         }, {
-            onlyOnce: true // If you want to fetch data only once and not listen for changes
+          onlyOnce: true
         });
 
-          setProfileName(data.ProfileName || currentUser.uid);  // Use existing or UID if no profile name
-          setProfileDescription(data.ProfileDescription || DEFAULT_PROFILE_DESCRIPTION);  // Default description if empty
-          setNumFollowing(data.numFollowing || profile.numFollowing)
-          
-        } else {
-          // Set defaults if no data exists
-          if (currentUser) {
-            set(ref(db, 'users/' + currentUser.uid), {
-              ProfileName: profileName,
-              ProfileDescription: profileDescription,
-              Email: currentUser.email,
-              numFollowing: 0
-              
-            })
-            .then(() => {
-              console.log("Data saved successfully!");
-            })
-            .catch((error) => {
-              console.error("Error writing document: ", error);
-            });
-          } else {
-            console.log("No user logged in");
-          }
-          setNumFollowing(0);
-          setProfileName(currentUser.displayName);  
-          setProfileDescription(DEFAULT_PROFILE_DESCRIPTION);
-        }
-      }).catch((error) => {
-        console.error("Error fetching user data: ", error);
-      });
-    }
-  }, [currentUser, db]);
+        setProfileName(data.ProfileName || currentUser.displayName || '');  // Use existing or display name if no profile name
+        setProfileDescription(data.ProfileDescription || DEFAULT_PROFILE_DESCRIPTION);  // Default description if empty
+        setNumFollowing(data.numFollowing || 0);  // Set numFollowing to 0 if no data
+      } else {
+        // Set defaults if no data exists
+        setProfileName(currentUser.displayName || '');  
+        setProfileDescription(DEFAULT_PROFILE_DESCRIPTION);
+        setNumFollowing(0);  // Always set numFollowing to 0 if no data
+        // Set the defaults in the database as well
+        set(ref(db, 'users/' + currentUser.uid), {
+          ProfileName: currentUser.displayName || '',
+          ProfileDescription: DEFAULT_PROFILE_DESCRIPTION,
+          Email: currentUser.email,
+          numFollowing: 0  // Always set numFollowing to 0 for new users
+        })
+        .then(() => {
+          console.log("Default user data saved successfully!");
+        })
+        .catch((error) => {
+          console.error("Error writing default user data: ", error);
+        });
+      }
+    }).catch((error) => {
+      console.error("Error fetching user data: ", error);
+    });
+  }
+}, [currentUser, db]);
 
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     const userRef = ref(db, 'users/' + currentUser.uid);
+  //     get(userRef).then((snapshot) => {
+  //       if (snapshot.exists()) {
+  //         const data = snapshot.val();
+
+  //         const unsubscribe = onValue(userRef, (snapshot) => {
+  //           if (snapshot.exists()) {
+  //               setProfile(snapshot.val());
+  //           } else {
+  //               setProfile(null);
+  //           }
+  //       }, {
+  //           onlyOnce: true // If you want to fetch data only once and not listen for changes
+  //       });
+
+  //         setProfileName(data.ProfileName || currentUser.uid);  // Use existing or UID if no profile name
+  //         setProfileDescription(data.ProfileDescription || DEFAULT_PROFILE_DESCRIPTION);  // Default description if empty
+  //         setNumFollowing(data.numFollowing || profile.numFollowing)
+          
+  //       } else {
+  //         // Set defaults if no data exists
+  //         if (currentUser) {
+  //           set(ref(db, 'users/' + currentUser.uid), {
+  //             ProfileName: profileName,
+  //             ProfileDescription: profileDescription,
+  //             Email: currentUser.email,
+  //             numFollowing: 0
+              
+  //           })
+  //           .then(() => {
+  //             console.log("Data saved successfully!");
+  //           })
+  //           .catch((error) => {
+  //             console.error("Error writing document: ", error);
+  //           });
+  //         } else {
+  //           console.log("No user logged in");
+  //         }
+  //         setNumFollowing(0);
+  //         setProfileName(currentUser.displayName);  
+  //         setProfileDescription(DEFAULT_PROFILE_DESCRIPTION);
+  //       }
+  //     }).catch((error) => {
+  //       console.error("Error fetching user data: ", error);
+  //     });
+  //   }
+  // }, [currentUser, db]);
+
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     setEditProfile(false); // Updates the state to 'false' when the button is clicked
@@ -95,6 +143,7 @@ const Profile = () => {
     }
   };
   const [editProfile, setEditProfile] = useState(false);
+  // const [img, setImg] = useState('')
   const [hasProfilePic, setHasProfilePic] = useState(false);
 
   const writeData = () => {
@@ -103,7 +152,7 @@ const Profile = () => {
         ProfileName: profileName,
         ProfileDescription: profileDescription,
         Email: currentUser.email,
-        numFollowing: profile.numFollowing
+        numFollowing: numFollowing
       })
       .then(() => {
         console.log("Data saved successfully!");
@@ -117,10 +166,13 @@ const Profile = () => {
   };
 
   const handleEditProfileClick = () => {
+
+
     setEditProfile(true); // Updates the state to 'true' when the button is clicked
   };
 
   const handleSaveProfileClick = () => {
+
     setEditProfile(false); // Updates the state to 'false' when the button is clicked
   };
 
@@ -140,6 +192,7 @@ const Profile = () => {
           const user = result.user;
           // Setting the user's display name and storing it in cookies
           const displayName = user.displayName || 'User';
+          setNumFollowing(0)
           setUserName(displayName);
           Cookies.set('userName', displayName, { expires: 7 }); // Set cookie to expire in 7 days
       } catch (error) {
@@ -158,6 +211,7 @@ const Profile = () => {
       }
   };
 
+  // setUserName(formData.Username)
   const handleEmail = async (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
   
@@ -190,6 +244,7 @@ const Profile = () => {
   
     // If email and password validation pass, you can proceed to create user or any other logic
    
+
     //once everything is a valid populated variable.
     if(name && email && password && username){
 
@@ -231,6 +286,13 @@ const Profile = () => {
       }
   
     }
+
+    // alert(`${name} ${email} ${password} ${username}`);
+    // Proceed with createUserWithEmailAndPassword or other logic here
+
+
+
+
   };
   
 
@@ -355,10 +417,14 @@ const Profile = () => {
     )}
     
     {userName && !editProfile && (
-      <div className= "profilePageStruct">  
+      <div className= "profilePageStruct">
+    
       <div class="flex-container">
         <div class="flex-item">
+        
           <img className = "profilePic" src = {img} alt = "profile picture" style={{ border: '4px solid rgb(255, 209, 122)', borderRadius: '50%' }}/>
+          {/* <h1 className = 'profileName'>{profileName}</h1> */}
+          {/* <h1 className = 'profileUserName'>{userName}</h1> */}
           <h1 className = 'profileUserName'>{profileName}</h1>
           <button className = 'standardButton' onClick={handleEditProfileClick}> Edit Profile </button>
         </div>
@@ -374,6 +440,8 @@ const Profile = () => {
         </div>
         
       </div>
+      {/* <button className = 'standardButton' onClick={handleLogout}>Logout</button> */}
+
       </div>
     )}
 
@@ -382,6 +450,26 @@ const Profile = () => {
       <div class = 'flex-container'>
           <div class = 'flex-item'>
             <img className = "profilePic" src = {img} alt = "profile picture"style={{ border: '4px solid rgb(255, 209, 122)', borderRadius: '50%' }}/>
+{/*             
+            <h1 className = 'profileName'>{formData.name}</h1>
+            <h1 className = 'profileUserName'>{userName}</h1>
+            <input type = 'file' style={{ display: 'none' }} class = 'standardButton' onChange={(e)=>setImg(e.target.files[0])}/>
+      
+            <input
+                type="file"
+                id="fileInput"
+                className="file-input"
+                onChange={(e) => setImg(e.target.files[0])}
+                onClick={handleChangePhotoClick}
+                style={{ display: 'none' }} // Hide the actual input element
+              />
+              <label htmlFor="fileInput" className="standardButton">
+                Change Photo
+              </label>
+
+              <button class = 'standardButton' onClick = {handleDelete}>delete</button> */}
+
+
           </div>
 
           <div className = 'flex-item' style={{ width: '90%' }}>
@@ -414,6 +502,7 @@ const Profile = () => {
               />
               <button 
               type="submit"
+              // onClick = {handleSaveProfileClick}
               class = 'saveButton'
               > Save </button>
               
@@ -424,11 +513,15 @@ const Profile = () => {
       </div>
     </div>
     )}
-  </div>
+               
+
+
+
+</div>
+
   );
 };
 
-// Export Profile component for routing and other uses
 export default Profile;
 
  <button className = "signInButton">
