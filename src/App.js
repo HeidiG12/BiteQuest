@@ -2,15 +2,14 @@ import logo from './logo.svg';
 import './Component/StyleSheets/App.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Import page components from their respective directories
 import Navbar from './Component/Navbar';
 import Home from './Component/Pages/Home';
 import Entries from './Component/Pages/Entries';
 import Journal from './Component/Pages/Journal';
 import Friends from './Component/Pages/Friends';
-import {useEffect} from 'react';
-import { gapi } from 'gapi-script';
 import Profile from "./Component/Pages/Profile";
-import React from 'react';
 import Tags from './Component/Pages/Tags';
 import Results from './Component/Pages/Results';
 import Review from './Component/Pages/Review';
@@ -22,17 +21,20 @@ import Tenders from './Component/Pages/Tenders';
 import Albert from './Component/Pages/Albert';
 import Alberta from './Component/Pages/Alberta';
 import Gator from './Component/Pages/Gator';
-// /Users/tina/Desktop/BiteQuest/src/Component/fireBaseConfig/AuthContext.js
 
+import React from 'react';
+
+import {useEffect} from 'react';
+import { gapi } from 'gapi-script';
 
 import { AuthProvider } from "./Component/fireBaseConfig/AuthContext.js";
 
 const clientId = "577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com"
 //Client Secret: 577803103733-skfigtm3cm0cmfllh8e2k4ejmq626tce.apps.googleusercontent.com 
 
-
+//Define the main App component
 function App() {
-  
+  // useEffect to initialize Google API client on component mount.
   useEffect(()=>{
     function start()  {
       gapi.client.init({
@@ -42,7 +44,8 @@ function App() {
     };
     gapi.load('client:auth2', start);
   });
-  
+
+  // Render the app within the AuthProvider context and Router.
   return (
     <AuthProvider>
     <div className="App">
@@ -58,11 +61,12 @@ function App() {
           <Route path="/results/:restaurant" element={<Results/>}></Route>
           <Route path="/:restaurant" element={<Home/>}></Route>
           <Route path="/friends/:name" element={<Joyin />}></Route>
-
         </Routes>
       </Router>
     </div>
     </AuthProvider>
   );
 }
+
+// Export the App component as the default export.
 export default App;
