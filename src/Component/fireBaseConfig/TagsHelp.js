@@ -1,7 +1,12 @@
+// Import database configuration and references from Firebase configuration.
 import {db, dbRef} from '../fireBaseConfig/OAuth'
 import {onValue, ref, child, get} from "firebase/database";
+
+// Select all checkbox elements for tag input.
 var checkboxes = document.querySelectorAll("input[type=checkbox][name=boxes]");
 let enabledSettings = []
+
+// Add change event listeners to checkboxes to handle user selections.
 checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
         enabledSettings = 
@@ -16,6 +21,8 @@ checkboxes.forEach(function(checkbox) {
         displaySelected(enabledSettings);
     })
 });
+
+// Function to display selected tags visually in the webpage.
 function displaySelected(enabledSettings) {
     document.getElementById("selectedDiv").innerHTML = "";
     enabledSettings.forEach((tag) => {
@@ -26,6 +33,7 @@ function displaySelected(enabledSettings) {
     });
 }
 
+// Toggle display utility function.
 function myDisplay(x) {
     if (x.style.display == "none") {
         x.style.display = "block";
@@ -33,6 +41,8 @@ function myDisplay(x) {
         x.style.display = "none";
     }
 }
+
+// Function to fetch data based on selected tags.
 async function getData(arrFinal) {   
     var testing = [];
     var results = document.getElementById("results");
@@ -54,10 +64,14 @@ async function getData(arrFinal) {
     };
     return testing;
 }
+
+// Function to validate selected tags.
 function checkingTagsSelected(x) {
     console.log("Heere:", x);
     return tagSearch(x);
 }
+
+// Function to search tags and compute tag-based logic.
 async function tagSearch(tagsSelected)  {
     let map = new Map();
     let go = false;
@@ -77,6 +91,8 @@ async function tagSearch(tagsSelected)  {
     arrFinal = await sortingResults(sortedArr, tagsSelected, arrFinal);
     return arrFinal;
 }
+
+// Helper function for mixing sort based on tags and index.
 function mixingSort(snapshot, sortedArr, index) {
     var arr = [];
     let filteredArray = [];
@@ -89,9 +105,13 @@ function mixingSort(snapshot, sortedArr, index) {
     }
     return arr;
 }
+
 var mapSorted = new Map();
+
+// Function to sort the results based on some accumulated criteria.
 async function sortingResults(sortedArr, tagsSelected, arrFinal) {
     console.log("Here: ");
+    
     for (const i of tagsSelected) {
         for (const j of sortedArr) {
             await get(child(dbRef, `Tags/${i.toUpperCase()}/${j}`)).then((snapshot)=>{
@@ -104,6 +124,7 @@ async function sortingResults(sortedArr, tagsSelected, arrFinal) {
             })
         }
     }
+    
     mapSorted.forEach((values, keys) => {
         console.log(keys, values);
     });
@@ -112,6 +133,7 @@ async function sortingResults(sortedArr, tagsSelected, arrFinal) {
     arrSorted.sort(function(a, b) {
         return b - a;
     });
+    
     for(const k of arrSorted) {
         mapSorted.forEach((keys, values) => {
             if (keys === k) {
@@ -120,8 +142,10 @@ async function sortingResults(sortedArr, tagsSelected, arrFinal) {
             }
         });
     }
+    
     console.log("ArrFinal: ", arrFinal);
     return arrFinal;
 }
 
+// Export all utility and processing functions.
 export {displaySelected, myDisplay, getData, checkingTagsSelected, tagSearch, mixingSort, sortingResults};
