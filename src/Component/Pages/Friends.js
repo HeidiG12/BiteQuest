@@ -207,41 +207,39 @@ function Friends() {
                 {magnifyingGlassSVG}
             </button>
           </div>
+        </div>
+
+        {userFound && (
+          <div>
+            <div className= "profilePageStruct">    
+              <div class="flex-container">
+                <div class="flex-item">
+                  <img className = "profilePic" src = {img} alt = "profile picture" style={{ border: '4px solid rgb(255, 209, 122)', borderRadius: '50%' }}/>
+                  <h1 className = 'profileUserName'>   
+                  {userBioResults.map((result) => (
+                    <h key={result.userId}>{result.bio}</h>
+                  ))}
+                </h1>
+                <button className = 'standardButton' onClick={handleAddFriend}> Follow </button>
+                <button className = 'standardButton' onClick={handleDeleteFriend}> Unfollow </button>
+              </div>
+
+              <div class = "flex-item" style={{ width: '100%','padding-top':'10px'}}>
+                <div className = 'flex-container'>
+                  <div class="flex-item headingBig" style={{ width: '40%' }}>2 Reviews</div> 
+                  <div class="flex-item headingBig" style={{ width: '40%' ,'margin-right':'220px' }}>0  Following</div>                
+                </div>
+                <h1 className = 'profileName' style={{ 'text-align': 'left', 'margin-left': '45px','margin-top' :'30px' }}>Profile Bio</h1>
+                <h1 className = 'paragraph' style={{ 'text-align': 'left', 'margin-left': '38px','margin-top' :'10px' }}> 
+                  {searchResults.map((result) => (
+                    <h key={result.userId}>{result.profileName}</h>
+                  ))}
+                </h1>
+              </div>
+            </div>
           </div>
-
-{userFound && (
-      <div>
-        <div className= "profilePageStruct">    
-    <div class="flex-container">
-      <div class="flex-item">
-        <img className = "profilePic" src = {img} alt = "profile picture" style={{ border: '4px solid rgb(255, 209, 122)', borderRadius: '50%' }}/>
-        {/* <h1 className = 'profileName'>{profileName}</h1> */}
-        {/* <h1 className = 'profileUserName'>{userName}</h1> */}
-        <h1 className = 'profileUserName'>   {userBioResults.map((result) => (
-    <h key={result.userId}>{result.bio}
-</h>
-
-  ))}</h1>
-  <button className = 'standardButton' onClick={handleAddFriend}> Follow </button>
-  <button className = 'standardButton' onClick={handleDeleteFriend}> Unfollow </button>
-
-      </div>
-
-      <div class = "flex-item" style={{ width: '100%','padding-top':'10px'}}>
-        <div className = 'flex-container'>
-        <div class="flex-item headingBig" style={{ width: '40%' }}>2 Reviews</div> 
-        <div class="flex-item headingBig" style={{ width: '40%' ,'margin-right':'220px' }}>0  Following</div>                
-      </div>
-      <h1 className = 'profileName' style={{ 'text-align': 'left', 'margin-left': '45px','margin-top' :'30px' }}>Profile Bio</h1>
-      <h1 className = 'paragraph' style={{ 'text-align': 'left', 'margin-left': '38px','margin-top' :'10px' }}> {searchResults.map((result) => (
-    <h key={result.userId}>{result.profileName}</h>
-  ))}</h1>
-
-      </div>
-    </div>
-    </div>
-    <div>
-          <h1>Recent Entries</h1>
+          <div>
+            <h1>Recent Entries</h1>
 
             <div>
               <div className="base">
@@ -266,14 +264,9 @@ function Friends() {
               </div>
               <br></br>
             </div>
-            
-          ))
-          }
+          </div>
         </div>
-
-      </div>
-    )}
-
+        )}
     </div>
   );
 }
