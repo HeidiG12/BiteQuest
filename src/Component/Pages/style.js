@@ -2,12 +2,16 @@ import React from "react";
 import './Tags.css';
 import {checkingTagsSelected} from '../../tags';
 
+// Component for handling tag selection and submission
 const Style = () => {
+    // State variables for tag selection and display toggles
     const [allchecked, setAllChecked] = React.useState([]);
     const [isOpenedFlavors, setIsOpenedFlavors] = React.useState(false);
     const [isOpenedCuisine, setIsOpenedCuisine] = React.useState(false);
     const [isOpenedRestrict, setIsOpenedRestrict] = React.useState(false);
     const [restClicked, setRestClicked] = React.useState('');
+
+    // Function to handle checkbox changes
     function handleChange(e) {
         if (e.target.checked) {
         setAllChecked([...allchecked, e.target.value]);
@@ -16,16 +20,24 @@ const Style = () => {
         setAllChecked(allchecked.filter((item) => item !== e.target.value));
         }
     }
+
+    // Functions to toggle tag category displays
     function displayFlavors() {
         setIsOpenedFlavors(wasOpened => !wasOpened);
     }
+
     function displayCuisine() {
         setIsOpenedCuisine(wasOpened => !wasOpened);
     }
+
     function displayRestrict() {
         setIsOpenedRestrict(wasOpened => !wasOpened);
     }
+
+    // State variable for storing search results
     const [results, setResults] = React.useState([]);
+
+    // Function to handle tag submission
     async function submitClicked() {
         setResults([]);
         var tagsResults = Array.from(await checkingTagsSelected(allchecked));
@@ -36,6 +48,8 @@ const Style = () => {
             console.log(item2)
         ));
     }
+
+    // JSX structure for tag selection and results display
     return (
         <div className="mainStyle">
                 <h1>Search by Tags</h1>

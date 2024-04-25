@@ -11,21 +11,26 @@
     font-size: large;
     word-wrap: break-word;
 }
+
 .lineResults {
     display: inline;
 }
+
 .nameResults {
     float: left;
 }
+
 .dateResults {
     float: right;
 }
+
 .founder {
     margin-right: 10%; 
     float: right;
     font-family: "Alike", sans-serif;
 
 }
+
 .sectionTitle {
     text-align:center;
     color: black;

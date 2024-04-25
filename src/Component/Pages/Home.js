@@ -13,17 +13,22 @@ import { get, ref, query, limitToLast, child} from "firebase/database";
 import {db, dbRef} from '../fireBaseConfig/OAuth';
 
 const Home = () => {
-  const [reviews, setReviews] = useState([]);
-  const [rest, setRest] = useState([]);
-  const [once, setOnce] = useState(false);
+  const [reviews, setReviews] = useState([]); // State to hold review data
+  const [rest, setRest] = useState([]); // State to hold restaurant data
+  const [once, setOnce] = useState(false); // State to check if data has been fetched
+
   async function retrieveRecent(){
+  // Array initialization
   var keysArr = [];
   var userArr = [];
   var postArr = [];
   var restArr = [];
   var restUpArr = [];
+
+  // Firebase query to get recent reviews
   let num = 4;
   const que = query(ref(db, `Reviews`), limitToLast(num));
+
   await get(que).then((snapshot)=> {
     snapshot.forEach(childSnapshot => {
       console.log(childSnapshot.key);
@@ -31,6 +36,8 @@ const Home = () => {
       userArr.push(childSnapshot.val());
     });
   });
+
+  // Fetching detailed data for each review
   let iter = 0;
   for (const user of userArr) {
     await get(child(dbRef, `usersData/${user}/entriespost/${keysArr[iter]}`)).then((snapshot)=> {
@@ -44,13 +51,18 @@ const Home = () => {
     }); 
     iter += 1;
   }
-  setReviews(postArr.reverse());
+
+  setReviews(postArr.reverse()); // Setting state with reversed arrays
   setRest(restArr.reverse());
   setOnce(true);
   } 
+
+  // Fetching data if not done before
   if (!once) {
     retrieveRecent();
   }
+
+  // Return the main structure of the Home component with all sections and conditional rendering for recent quests
   return (
     <div className="home">
       <div className="header">
@@ -251,4 +263,5 @@ const Home = () => {
   );
 };
 
+// Exporting the Home component for use in routing and other components
 export default Home;

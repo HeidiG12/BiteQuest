@@ -74,8 +74,6 @@
   border-radius: 6px;
 }
 
-
-/*where did navbar a come from*/
 .navbar a {
   color: #000022;
   text-decoration: none;
@@ -111,7 +109,6 @@
   flex-direction: column;
 }
 
-
 @media screen and (max-width: 915px) {
   .links {
     display: none;
@@ -124,5 +121,4 @@
   .menu {
     display: flex;
   }
-
 }

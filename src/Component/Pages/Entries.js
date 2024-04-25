@@ -4,12 +4,14 @@ import {db, dbRef, auth} from '../fireBaseConfig/OAuth';
 import "../StyleSheets/Entries.css";
 
 const Entries = () => {
+  // State variables to store entries, restaurant names, dates, posts, and loading state
   const [entries, setEntries] = useState([]);
   const [entriesRest, setEntriesRest] = useState([]);
   const [date, setDate] = useState([]);
   const [post, setPost] = useState([]);
   const [print, setPrint] = useState(false);
 
+  // Asynchronous function to fetch data related to user's entries
   async function queryData() {
     var keysArr = [];
     var postArr = [];
@@ -18,6 +20,8 @@ const Entries = () => {
     var restUpArr = [];
     var iter = 0;
     let num = 100;  //Gets the first 100 entries 
+
+    // Query user entries from Firebase
     const que = query(ref(db, `usersData/${auth.currentUser.uid}/entries`), limitToLast(num));
     await get(que).then((snapshot)=> {
       snapshot.forEach(childSnapshot => {
@@ -25,24 +29,32 @@ const Entries = () => {
         restUpArr.push(childSnapshot.val());
       });
     });
+
+    // Query post details associated with entries
     const que2 = query(ref(db, `usersData/${auth.currentUser.uid}/entriespost`), limitToLast(num));
     await get(que2).then((snapshot)=> {
       snapshot.forEach(childSnapshot => {
         postArr.push(childSnapshot.val());
       });
     });
+
+    // Query timestamps of entries
     const que3 = query(ref(db, `usersData/${auth.currentUser.uid}/entriestime`), limitToLast(num));
     await get(que3).then((snapshot)=> {
       snapshot.forEach(childSnapshot => {
         dateArr.push(childSnapshot.val());
       });
     });
+
+    // Resolve restaurant names from the IDs
     for (const restUp of restUpArr) {
       await get(child(dbRef, `Restaurants/${restUpArr[iter]}`)).then((snapshot)=> {
         restArr.push(snapshot.val().name);
       }); 
       iter += 1;
     }
+
+    // Set state with the retrieved data, reversed for chronological order
     setEntries(keysArr.reverse());
     setPost(postArr.reverse());
     setDate(dateArr.reverse());
@@ -50,9 +62,13 @@ const Entries = () => {
     setPrint(true);
 
   }
+
+  // Invoke queryData once if data hasn't been printed yet
   if (!print) {
     queryData();
   }
+
+  // Render UI based on the current state
   return (
     <div>
       {entries.length === 0 ? 
@@ -93,4 +109,6 @@ const Entries = () => {
     </div>
   );
 };
+
+// Export the Entries component
 export default Entries;

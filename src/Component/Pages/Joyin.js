@@ -11,6 +11,7 @@ import pic6 from "../imgs/albert.jpg";
 import pic7 from "../imgs/alberta.jpg";
 import pic8 from "../imgs/gator.jpg";
 
+// Initial data for friends
 const initialFriendsData = [
   { name: "Joyin", pic: pic1, reviews: 8, following: 4, email: "Joyin@gmail.com", Bio: "Hello I'm Joyin", description: "Joyin: An intrepid explorer of cultural landscapes, blending artistry and anthropology to uncover the beauty in diversity ", follow: false, restaurantName1: "Cafe Delight", review1: "An exquisite experience with flavors that dance on the palate.", restaurantName2: "Seaside Eats", review2: "The seafood is fresh, flavorful, and served with a beautiful ocean view."},
   { name: "Tina", pic: pic3, reviews: 2, following: 5, email: "Tina@gmail.com", Bio: "Hello I'm Tina", description: "Tina: A tech-savvy trailblazer, harnessing innovation to create seamless experiences and shape the future of digital connectivity. ", follow: false, restaurantName1: "Cafe Delight", review1: "An exquisite experience with flavors that dance on the palate.", restaurantName2: "Seaside Eats", review2: "The seafood is fresh, flavorful, and served with a beautiful ocean view."},
@@ -22,24 +23,32 @@ const initialFriendsData = [
   { name: "Gator", pic: pic8, reviews: 5, following: 6, email: "Gator@gmail.com", Bio: "Hello I'm Gator", description: "Gator: A dynamic performer, electrifying stages with raw talent and infectious energy, leaving audiences in awe of his magnetic presence.", follow: false, restaurantName1: "Cafe Delight", review1: "An exquisite experience with flavors that dance on the palate.", restaurantName2: "Seaside Eats", review2: "The seafood is fresh, flavorful, and served with a beautiful ocean view."},
 ];
 
-
+// Component to display a specific friend's profile based on URL params
 const Joyin = () => {
+  // Get stored data
   const [friendsData, setFriendsData] = useState(() => {
     const storedFriendsData = localStorage.getItem('friendsData');
     return storedFriendsData ? JSON.parse(storedFriendsData) : initialFriendsData;
   });
+
+  // State for selected friend
   const [selectedFriend, setSelectedFriend] = useState(null);
+  
+  // Get the name from the route parameters
   const { name } = useParams();
 
   useEffect(() => {
+    // Find friend by name
     const friend = friendsData.find(friend => friend.name === name);
     setSelectedFriend(friend);
   }, [name, friendsData]);
 
   useEffect(() => {
+    // Save data to localStorage
     localStorage.setItem('friendsData', JSON.stringify(friendsData));
   }, [friendsData]);
 
+  // Toggle follow/unfollow state
   const handleFollowToggle = () => {
     if (selectedFriend) {
       const updatedFriendsData = friendsData.map(friend =>
@@ -51,20 +60,25 @@ const Joyin = () => {
 
   const friend = friendsData.find((f) => f.name === name);
   
+  // State for like/dislike
   const [thumbsState, setThumbsState] = useState({});
 
+  // Handler for liking an entry
   const handleLike = (entryId) => {
     setThumbsState({ ...thumbsState, [entryId]: { like: true, dislike: false } });
   };
 
+  // Handler for disliking an entry
   const handleDislike = (entryId) => {
     setThumbsState({ ...thumbsState, [entryId]: { like: false, dislike: true } });
   };
 
+  // If friend is not found
   if (!friend) {
     return <div>No friend found with the name "{name}".</div>;
   }
 
+  // Render the profile page with friend details and interactions
   return (
     <div className="profilePageStruct">
       <div class="flex-container">
@@ -194,4 +208,5 @@ const Joyin = () => {
   );
 };
 
+// Exporting Joyin component for routing and reuse
 export default Joyin;

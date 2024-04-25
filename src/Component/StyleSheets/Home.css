@@ -5,7 +5,6 @@
 }
 
 /*******************************************************************/
-/* Maybe add header height?*/
 .header {
   width: 100%;
   display: flex;
@@ -104,8 +103,6 @@
 }
 
 /*******************************************************************/
-/* IDK what this stuff is*/
-
 .about .list {
   list-style: none;
   width: 60%;
@@ -174,10 +171,12 @@
   overflow-y: scroll;
   margin-top: 1rem;
 }
+
 ::-webkit-scrollbar{
   width: 0;  /* Remove scrollbar space */
   background: transparent;  /* Optional: just make scrollbar invisible */
 }
+
 .buttonEditRecent:hover {
   background-color: lightsalmon;
 }

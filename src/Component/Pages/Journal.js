@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 
+// State to track textarea input
 function Journal() {
   const [inputValue, setInputValue] = useState("");
 
+  // Handler for changes in the textarea
   const handleChange = (event) => {
     setInputValue(event.target.value);
   };
 
+  // Return JSX structure for the component
   return (
     <div className="home"> 
       <div className="header">
@@ -66,4 +69,5 @@ function Journal() {
   );
 }
 
+// Export the Journal component for use in other parts of the app
 export default Journal;

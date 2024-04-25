@@ -7,6 +7,7 @@
     font-family: "Alike", sans-serif;
     font-size: large;
 }
+
 .description {
     display: block;
     align-items: center;
@@ -15,15 +16,18 @@
     border: 1px solid black;
     font-family: "Alike", sans-serif;
 }
+
 .descriptionLabel {
     display: block;
     font-family: "Alike", sans-serif;
     font-size: large;
 }
+
 .hoursInput {
     width: 20%;
     font-family: "Alike", sans-serif;
 }
+
 .restInput {
     width: 77.5%;
     border-radius: 5px;
@@ -31,14 +35,17 @@
     font-family: "Alike", sans-serif;
     font-size: large;
 }
+
 .restInputNew {
     width: 77.5%;
     font-family: "Alike", sans-serif;
 }
+
 .addressInput {
     width: 77.5%;
     font-family: "Alike", sans-serif;
 }
+
 .reviewSubmit {
     text-align: center;
     background-color: f2f2f2;
@@ -53,10 +60,12 @@
     font-family: "Alike", sans-serif;
     font-size: medium;
 }
+
 .reviewSubmit:hover {
     background: orange;
     cursor:pointer;
 }
+
 .formDiv {
     background-color: bisque;
     padding-left: 10%;
@@ -65,6 +74,7 @@
     padding-bottom: 1%;
     border-radius: 10px;
 }
+
 .selectedReviewDiv {
     border: 1px solid lightgrey;
     padding-left: 1em;
@@ -75,6 +85,7 @@
     text-align: center;
     align-items: center;
 }
+
 .buttons1 {
     text-align: center;
     background-color: f2f2f2;

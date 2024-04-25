@@ -12,6 +12,8 @@ const Review = () => {
     const restrictions = ["Gluten Free", "Vegan", "Vegetarian"];
     const cuisine = ["Korean", "Indian", "Japanese", "Chinese", "Cuban", "Caribbean", "Mediterranean", "Italian", "American"];
     const flavors = ["Spicy", "Sweet", "Umami"];
+
+    // Handle checkbox changes for tag selection
     function handleChange(e) {
         if (e.target.checked) {
         setAllChecked([...allchecked, e.target.value]);
@@ -20,15 +22,21 @@ const Review = () => {
         setAllChecked(allchecked.filter((item) => item !== e.target.value));
         }
     }
+
+    // Toggle display for flavors, cuisine, and restrictions
     function displayFlavors() {
         setIsOpenedFlavors(wasOpened => !wasOpened);
     }
+
     function displayCuisine() {
         setIsOpenedCuisine(wasOpened => !wasOpened);
     }
+
     function displayRestrict() {
         setIsOpenedRestrict(wasOpened => !wasOpened);
     }
+
+    // Reset the form states to their defaults
     function reset() {
         setAllChecked([]);
         setIsOpenedFlavors(false);
@@ -36,6 +44,7 @@ const Review = () => {
         setIsOpenedRestrict(false);
     }
 
+    //initialize all variables
     const [description , setDescription] = useState("");
     const [restaurantInput, setRestInput] = useState("");
     const [submitted, setSubmitted] = useState(false)
@@ -72,11 +81,13 @@ const Review = () => {
     const [submitNewSunStartSuf, setSubmitNewSunStartSuf] = useState("AM");
     const [submitNewSunEndSuf, setSubmitNewSunEndSuf] = useState("AM");
 
+    // Handle form submission to submit a review
     async function handleSubmit(event) {
         event.preventDefault();
         reset();
         setSubmitted(true);
         const updates = {};
+
         //for write description 
         await get(child(dbRef, `Restaurants/${restaurantInput.toUpperCase()}`)).then((snapshot)=>{
             console.log(restaurantInput);
@@ -84,17 +95,22 @@ const Review = () => {
                 get(child(dbRef, `Restaurants/${restaurantInput.toUpperCase()}/post`)).then((snapshot)=>{
                     const newPostKey = push(child(dbRef, `Reviews`)).key;
                     updates[`Restaurants/${restaurantInput.toUpperCase()}/post/${newPostKey}`] = description;
+
                     //Updates review on usersData folder in database 
                     updates[`usersData/${auth.currentUser.uid}/entries/${newPostKey}`] = restaurantInput.toUpperCase();
                     updates[`usersData/${auth.currentUser.uid}/entriespost/${newPostKey}`] = description;
                     updates[`usersData/${auth.currentUser.uid}/profilename`] = auth.currentUser.displayName;
                     updates[`Reviews/${newPostKey}`] = auth.currentUser.uid;
+                    
                     //Add timestamp for Date 
                     const time = Timestamp.now();
                     console.log(`Date: ${time.toDate().toLocaleDateString()}`);
                     updates[`usersData/${auth.currentUser.uid}/entriestime/${newPostKey}`] = time.toDate().toLocaleDateString();
+                    
                     update(dbRef, updates);
                 });
+
+                // Update tag counts based on user selection
                 allchecked.forEach((tag) => {
                     const tagUpdates = {};
                     get(child(dbRef, `Tags/${tag.toUpperCase()}/${restaurantInput.toUpperCase()}`)).then((snapshot)=>{
@@ -121,10 +137,14 @@ const Review = () => {
         });
         setAllChecked([]);
     }
+
+    // Handle the submission of a new restaurant if it doesn't exist
     function handleNewRestSub(e) {
         setSubmitNew(true);
         setRestDNE(false);
     }
+
+    // Handle form submission for a new restaurant
     function handleNewRestSubForm(event) {
         event.preventDefault();
         console.log("Monday: " + submitNewMonStart + submitNewMonStartSuf + " - " + submitNewMonEnd + submitNewMonEndSuf);
@@ -134,6 +154,8 @@ const Review = () => {
         console.log("Friday: " + submitNewFriStart + submitNewFriStartSuf + " - " + submitNewFriEnd + submitNewFriEndSuf);
         console.log("Saturday: " + submitNewSatStart + submitNewSatStartSuf + " - " + submitNewSatEnd + submitNewSatEndSuf);
         console.log("Sunday: " + submitNewSunStart + submitNewSunStartSuf + " - " + submitNewSunEnd + submitNewSunEndSuf);
+
+        // Set new restaurant data in Firebase
         set(ref(db, `Restaurants/${submitNewName.toUpperCase()}`), {
             name: submitNewName,
             address: submitNewAddress,
@@ -150,12 +172,16 @@ const Review = () => {
         });
         setSubmitNew(false);
     }
+
     function makeAnother() {
         setSubmitted(false);
     }
+
     function goBack() {
         setRestDNE(false);
     }
+
+    //rendering UI screen based on requests from buttons pressed
     return (
         <div>
         {submitted ? 
@@ -176,6 +202,8 @@ const Review = () => {
             </div>
         </form>
         ) 
+
+        //for submitting a new request, having to put in name, hours of op, and address
         :submitNew ? 
         (<form onSubmit={handleNewRestSubForm} className="reviewForm"> 
             <div className="formDiv"> 
@@ -369,4 +397,5 @@ const Review = () => {
     );
 
 };
+// Export the Review component
 export default Review;

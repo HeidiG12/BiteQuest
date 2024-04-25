@@ -31,14 +31,12 @@
     padding-top: 2%;
 }
 
-
 .my-class {
     /* background-color: lightblue; */
     padding-left: 15%;
     padding-right: 15%;
     margin: 15px;
 }
-
 
 .signInBackBox {
     background-color: rgb(234, 234, 234);
@@ -86,7 +84,6 @@
     text-align: center;
     margin-left: 36%;
 }
-
 
 .image-button {
     background-color: rgb(66, 133, 244);
@@ -151,7 +148,6 @@
     /* Include padding and border in the element's total width and height */
 }
 
-
 .profilePic {
     width: 140px;
     margin: 0;
@@ -159,7 +155,6 @@
     height: auto;
     border-radius: 100px;
 }
-
 
 .profileName {
     margin-top: 0;
@@ -203,7 +198,6 @@
 
 }
 
-
 .editPageStruct {
     /* background-color: rgb(241, 241, 241); */
     margin-left: 28%;
@@ -215,7 +209,6 @@
 .editInputBoxSpacing {
     margin-top: 11px;
 }
-
 
 .saveButton {
     background-color: rgb(252, 200, 104);
@@ -268,7 +261,6 @@
 }
 
 /* Existing styles */
-
 /* New styles for like and dislike buttons */
 .like-button,
 .dislike-button {
@@ -293,6 +285,7 @@
     background-color: red;
     color: white;
 }
+
 .entries-heading {
     text-align: left;
     margin-left: 65px; /* Adjust this value to align with your design */
@@ -312,6 +305,3 @@
 .entry-description {
     font-size: 16px; /* Adjust size as needed */
 }
-
-
-

@@ -11,13 +11,16 @@
     font-size: large;
     word-wrap: break-word;
 }
+
 .line {
     display: inline;
     text-align: right;
 }
+
 .names {
     float: left;
 }
+
 .date {
     float: right;
 }

@@ -2,11 +2,13 @@
     font-family: "Alike", sans-serif;
     text-align:center;
 }
+
 h1 {
     text-align:center;
     color: black;
     font-family: "Palanquin", sans-serif;
 }
+
 #div {
     display: flex;
     align-items: center;
@@ -14,6 +16,7 @@ h1 {
     border: 10px solid lightgray;
   
 }
+
 .TagButtons {
 display: flex;
 align-items: center;
@@ -33,16 +36,20 @@ font-size: 1em;
 margin: 10px;
 font-family: "Alike", sans-serif;
 }
+
 .try:hover {
 background: lavender;
 cursor:pointer;
 }
+
 input[type="checkbox"] {
 display: none;
 }
+
 input[type="text"] {
 width: 30em;
 }
+
 input[type="button"] {
 display:inline-block;
 width:10em;
@@ -53,6 +60,7 @@ text-align:center;
 font-size: 1em;
 margin: 10px;
 }
+
 input[type="button"]:hover {
 background-color: peachpuff;
 cursor:pointer;
@@ -61,6 +69,7 @@ cursor:pointer;
 input[type="checkbox"]:checked + .flavorLabel {
 background-color: powderblue;
 }
+
 input:hover + .flavorLabel {
 background: powderblue;
 cursor:pointer;
@@ -69,6 +78,7 @@ cursor:pointer;
 input[type="checkbox"]:checked + .cuisineLabel {
 background-color: lightsalmon;
 }
+
 input:hover + .cuisineLabel {
 background: lightsalmon;
 cursor:pointer;
@@ -77,6 +87,7 @@ cursor:pointer;
 input[type="checkbox"]:checked + .restrictLabel {
 background-color: lightcoral;
 }
+
 input:hover + .restrictLabel {
 background: lightcoral;
 cursor:pointer;
@@ -97,6 +108,7 @@ padding-left: 1em;
 padding-right: 1em;
 margin: 5px;
 }
+
 .cuisineLabel {
 display:inline-block;
 width:auto;
@@ -112,6 +124,7 @@ padding-left: 1em;
 padding-right: 1em;
 margin: 5px;
 }
+
 .restrictLabel {
 display:inline-block;
 width:auto;
@@ -127,6 +140,7 @@ padding-left: 1em;
 padding-right: 1em;
 margin: 5px;
 }
+
 .selectedLabels {
 display:inline-block;
 width:auto;
@@ -155,6 +169,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 }
+
 .selected {
 display:inline-block;
 border-radius:10px;
@@ -163,6 +178,7 @@ padding-right: 1em;
 padding-top: 1em;
 font-size:1rem;
 }
+
 .selectedDiv {
 border: 1px solid lightgrey;
 padding-left: 1em;
@@ -176,6 +192,7 @@ align-items: center;
 margin-left: 25%;
 margin-right: 25%;
 }
+
 .selectedDivWrite {
 border: 1px solid lightgrey;
 padding-left: 1em;
@@ -189,10 +206,12 @@ align-items: center;
 margin-left: 25%;
 margin-right: 25%;
 }
+
 .review {
 align-items: center;
 text-align:center;
 }
+
 .results {
 border: 1px solid lightgrey;
 padding-left: 1em;
@@ -210,10 +229,12 @@ text-align:center;
 font-size: 1em;
 margin: 10px;
 }
+
 .results:hover {
 background-color: peachpuff;
 cursor:pointer;
 }
+
 .mainDiv {
 border: 0px;
 text-align: center;

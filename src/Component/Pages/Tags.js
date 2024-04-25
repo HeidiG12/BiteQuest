@@ -4,6 +4,7 @@ import {checkingTagsSelected} from "../fireBaseConfig/TagsHelp";
 import { Link } from 'react-router-dom';
 
 const Tags = () => {
+    // State management for various component states
     const [allchecked, setAllChecked] = React.useState([]);
     const [isOpenedFlavors, setIsOpenedFlavors] = React.useState(false);
     const [isOpenedCuisine, setIsOpenedCuisine] = React.useState(false);
@@ -11,6 +12,8 @@ const Tags = () => {
     const restrictions = ["Gluten Free", "Vegan", "Vegetarian"];
     const cuisine = ["Korean", "Indian", "Japanese", "Chinese", "Cuban", "Caribbean", "Mediterranean", "Italian", "American"];
     const flavors = ["Spicy", "Sweet", "Umami"];
+
+    // Handler for checkbox changes
     function handleChange(e) {
         if (e.target.checked) {
         setAllChecked([...allchecked, e.target.value]);
@@ -19,16 +22,23 @@ const Tags = () => {
         setAllChecked(allchecked.filter((item) => item !== e.target.value));
         }
     }
+
+    // Handlers to toggle the display of checkboxes based on category
     function displayFlavors() {
         setIsOpenedFlavors(wasOpened => !wasOpened);
     }
+
     function displayCuisine() {
         setIsOpenedCuisine(wasOpened => !wasOpened);
     }
+
     function displayRestrict() {
         setIsOpenedRestrict(wasOpened => !wasOpened);
     }
+
     const [results, setResults] = React.useState([]);
+
+    // Function to handle submission of selected tags
     async function submitClicked() {
         setResults([]);
         var tagsResults = Array.from(await checkingTagsSelected(allchecked));
@@ -38,6 +48,8 @@ const Tags = () => {
             console.log(item2)
         ));
     }
+
+    // Render the Tags component UI
     return (
         <div className="mainStyle">
                 <h1>Search by Tags</h1>
@@ -99,4 +111,5 @@ const Tags = () => {
     );
 };
 
+// Export the Tags component
 export default Tags;

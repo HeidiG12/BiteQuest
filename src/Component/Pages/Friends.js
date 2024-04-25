@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { getDatabase, ref, get,set, onValue } from "firebase/database";
 import "../StyleSheets/Friends.css";
@@ -11,6 +9,7 @@ import Cookies from 'js-cookie'; //if error, install with this-> npm install js-
 
 
 function Friends() {
+  // State variables declaration
   const [userIds, setUserIds] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -21,11 +20,15 @@ function Friends() {
   const [userFound, setUserFound] = useState(false);
   const [followingCount, setFollowingCount] = useState(0);
 
-
-
   const [profile, setProfile] = useState(null);
+
+  // Firebase database reference
   const db = getDatabase();
+
+  // Current user from AuthContext
   const {currentUser} = useAuth();
+
+  // Fetching user IDs from Firebase on component mount
   useEffect(() => {
     const db = getDatabase();
     const usersRef = ref(db, 'users');
@@ -41,6 +44,7 @@ function Friends() {
     return () => unsubscribe();
   }, []);
 
+  // Fetching user data based on user IDs
   useEffect(() => {
     const fetchData = async () => {
       const db = getDatabase();
@@ -58,12 +62,13 @@ function Friends() {
     fetchData();
   }, [userIds]);
 
+  // Handling change in search term input
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     setError(null); // Clear error message when user starts typing again
   };
   
-  // const currentUserRef = ref(db, 'users/' + currentUser.uid);
+  // Handling adding friend for users
   const handleAddFriend = () => {
     const userRef = ref(db, 'users/' + currentUser.uid);
   
@@ -91,7 +96,7 @@ function Friends() {
     window.alert('Friend added');
   };
   
-
+  // Handling delete/remove a friend for users
   const handleDeleteFriend = (event) => {
     const userRef = ref(db, 'users/' + currentUser.uid);
   
@@ -120,6 +125,7 @@ function Friends() {
     window.alert('Friend Unadded');
   };
 
+  // Handling search for users
   const handleSearch = async () => {
     const foundResult = searchResults.find(result =>
       result.email && result.email.toLowerCase().includes(searchTerm.toLowerCase())
@@ -165,30 +171,15 @@ function Friends() {
       setError("No user found with that email.");
     }
   };
-  
 
-  // const handleSearch = () => {
-  //   const foundResult = searchResults.find(result =>
-  //     result.email && result.email.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-
-  //   if (foundResult) {
-  //     // Display the found result
-  //     setSearchResults([foundResult]);
-  //     setUserFound(true);
-  //     setError(null);
-  //   } else {
-  //     // Display an error message
-  //     setUserFound(false);
-  //     setError("No user found with that email.");
-  //   }
-  // };
-
+  // SVG for magnifying glass
   const magnifyingGlassSVG = (
     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.03.062.058.095.083l.007.006.002.002a.977.977 0 0 0 .128.115l4.516 4.517a.5.5 0 0 0 .708-.708l-4.517-4.516a.977.977 0 0 0-.115-.128l-.002-.002-.006-.007a.977.977 0 0 0-.083-.094v-.001zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
     </svg>
   );
+
+  // Return JSX
   return (
     <div >
       <h2 className = 'center'>Find BiteQuest Friends</h2>
@@ -218,24 +209,6 @@ function Friends() {
           </div>
           </div>
 
-      {/* <input
-        type="text"
-        placeholder="Search by Email"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        className = 'search'
-      /> */}
-
-      {/* <button onClick={handleSearch}>Search</button>
-      {error && <p>{error}</p>}
-
-      <ul>
-        {searchResults.map((result) => (
-          <li key={result.userId}>{`${result.userId}: ${result.email}`}</li>
-        ))}
-      </ul>  */}
-
-{/* Other JSX elements */}
 {userFound && (
       <div>
         <div className= "profilePageStruct">    
@@ -257,11 +230,7 @@ function Friends() {
       <div class = "flex-item" style={{ width: '100%','padding-top':'10px'}}>
         <div className = 'flex-container'>
         <div class="flex-item headingBig" style={{ width: '40%' }}>2 Reviews</div> 
-        <div class="flex-item headingBig" style={{ width: '40%' ,'margin-right':'220px' }}>0  Following</div> 
-        {/* {searchResults.map((result) => (
-    <h key={result.userId}>{result.numFollowingCountfound}</h>
-  ))} */}
-               
+        <div class="flex-item headingBig" style={{ width: '40%' ,'margin-right':'220px' }}>0  Following</div>                
       </div>
       <h1 className = 'profileName' style={{ 'text-align': 'left', 'margin-left': '45px','margin-top' :'30px' }}>Profile Bio</h1>
       <h1 className = 'paragraph' style={{ 'text-align': 'left', 'margin-left': '38px','margin-top' :'10px' }}> {searchResults.map((result) => (
@@ -269,10 +238,7 @@ function Friends() {
   ))}</h1>
 
       </div>
-      
     </div>
-    {/* <button className = 'standardButton' onClick={handleLogout}>Logout</button> */}
-
     </div>
     <div>
           <h1>Recent Entries</h1>
@@ -289,7 +255,6 @@ function Friends() {
               <br></br>
             </div>
 
-
             <div>
               <div className="base">
                 <div className="line">
@@ -301,8 +266,7 @@ function Friends() {
               </div>
               <br></br>
             </div>
-
-
+            
           ))
           }
         </div>

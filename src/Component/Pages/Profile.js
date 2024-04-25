@@ -1,5 +1,3 @@
-
-
 import "../StyleSheets/Profile.css";
 import React, { useEffect, useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
@@ -12,8 +10,7 @@ import img from "../imgs/profleAv.png";
 import {v4} from 'uuid';
 import { getDatabase, ref, onValue,get,set } from "firebase/database";
 
-
-
+// Main profile component
 const Profile = () => {
   const {currentUser} = useAuth();
   const db = getDatabase();
@@ -21,8 +18,6 @@ const Profile = () => {
   const [profileName, setProfileName] = useState('');
   const [profileDescription, setProfileDescription] = useState('');
   const [numFollowing, setNumFollowing] = useState(0);
-
-
   const [userName, setUserName] = useState('');
   const [formData, setFormData] = useState({
       name: '',
@@ -30,9 +25,11 @@ const Profile = () => {
       email: '',
       password: '',
   })
-  // At the top of your file or in a separate constants file
-const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a never-ending journey fueled by a profound passion for exploring the vast world of flavors, textures, and aromas. My days are marked by the anticipation of discovering new dishes and the stories behind them, whether it's a hidden street food stall offering the perfect bite of spicy, tangy chaat, or a high-end restaurant that transforms familiar ingredients into works of edible art. I find joy in the details—the history of a centuries-old recipe, the careful balance of spices in a regional dish, or the innovative techniques chefs use to push the boundaries of what we consider food. Sharing these experiences, whether through vivid descriptions, tips on where to find the best eats, or discussions about the cultural significance of food, is just as thrilling as the quest itself. For me, food is more than sustenance; it's a language that communicates love, tradition, innovation, and community."
 
+  // At the top of your file or in a separate constants file
+  const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a never-ending journey fueled by a profound passion for exploring the vast world of flavors, textures, and aromas. My days are marked by the anticipation of discovering new dishes and the stories behind them, whether it's a hidden street food stall offering the perfect bite of spicy, tangy chaat, or a high-end restaurant that transforms familiar ingredients into works of edible art. I find joy in the details—the history of a centuries-old recipe, the careful balance of spices in a regional dish, or the innovative techniques chefs use to push the boundaries of what we consider food. Sharing these experiences, whether through vivid descriptions, tips on where to find the best eats, or discussions about the cultural significance of food, is just as thrilling as the quest itself. For me, food is more than sustenance; it's a language that communicates love, tradition, innovation, and community."
+
+  // Load user data from Firebase Realtime Database
   useEffect(() => {
     if (currentUser) {
       const userRef = ref(db, 'users/' + currentUser.uid);
@@ -83,7 +80,6 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
     }
   }, [currentUser, db]);
 
-  
   const handleSubmit = (event) => {
     event.preventDefault();
     setEditProfile(false); // Updates the state to 'false' when the button is clicked
@@ -99,7 +95,6 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
     }
   };
   const [editProfile, setEditProfile] = useState(false);
-  // const [img, setImg] = useState('')
   const [hasProfilePic, setHasProfilePic] = useState(false);
 
   const writeData = () => {
@@ -122,13 +117,10 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
   };
 
   const handleEditProfileClick = () => {
-
-
     setEditProfile(true); // Updates the state to 'true' when the button is clicked
   };
 
   const handleSaveProfileClick = () => {
-
     setEditProfile(false); // Updates the state to 'false' when the button is clicked
   };
 
@@ -166,7 +158,6 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
       }
   };
 
-  // setUserName(formData.Username)
   const handleEmail = async (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
   
@@ -199,7 +190,6 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
   
     // If email and password validation pass, you can proceed to create user or any other logic
    
-
     //once everything is a valid populated variable.
     if(name && email && password && username){
 
@@ -241,13 +231,6 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
       }
   
     }
-
-    // alert(`${name} ${email} ${password} ${username}`);
-    // Proceed with createUserWithEmailAndPassword or other logic here
-
-
-
-
   };
   
 
@@ -372,14 +355,10 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
     )}
     
     {userName && !editProfile && (
-      <div className= "profilePageStruct">
-    
+      <div className= "profilePageStruct">  
       <div class="flex-container">
         <div class="flex-item">
-        
           <img className = "profilePic" src = {img} alt = "profile picture" style={{ border: '4px solid rgb(255, 209, 122)', borderRadius: '50%' }}/>
-          {/* <h1 className = 'profileName'>{profileName}</h1> */}
-          {/* <h1 className = 'profileUserName'>{userName}</h1> */}
           <h1 className = 'profileUserName'>{profileName}</h1>
           <button className = 'standardButton' onClick={handleEditProfileClick}> Edit Profile </button>
         </div>
@@ -395,8 +374,6 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
         </div>
         
       </div>
-      {/* <button className = 'standardButton' onClick={handleLogout}>Logout</button> */}
-
       </div>
     )}
 
@@ -405,26 +382,6 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
       <div class = 'flex-container'>
           <div class = 'flex-item'>
             <img className = "profilePic" src = {img} alt = "profile picture"style={{ border: '4px solid rgb(255, 209, 122)', borderRadius: '50%' }}/>
-{/*             
-            <h1 className = 'profileName'>{formData.name}</h1>
-            <h1 className = 'profileUserName'>{userName}</h1>
-            <input type = 'file' style={{ display: 'none' }} class = 'standardButton' onChange={(e)=>setImg(e.target.files[0])}/>
-      
-            <input
-                type="file"
-                id="fileInput"
-                className="file-input"
-                onChange={(e) => setImg(e.target.files[0])}
-                onClick={handleChangePhotoClick}
-                style={{ display: 'none' }} // Hide the actual input element
-              />
-              <label htmlFor="fileInput" className="standardButton">
-                Change Photo
-              </label>
-
-              <button class = 'standardButton' onClick = {handleDelete}>delete</button> */}
-
-
           </div>
 
           <div className = 'flex-item' style={{ width: '90%' }}>
@@ -457,7 +414,6 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
               />
               <button 
               type="submit"
-              // onClick = {handleSaveProfileClick}
               class = 'saveButton'
               > Save </button>
               
@@ -468,15 +424,11 @@ const DEFAULT_PROFILE_DESCRIPTION = "As a self-proclaimed foodie, I embark on a 
       </div>
     </div>
     )}
-               
-
-
-
-</div>
-
+  </div>
   );
 };
 
+// Export Profile component for routing and other uses
 export default Profile;
 
  <button className = "signInButton">
